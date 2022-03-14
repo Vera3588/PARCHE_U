@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ParcheU - inicio</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700'  %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Header-Dark.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Dark.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Navigation-with-Button.css' %}" >
+    <link rel="stylesheet" href="{% static 'assets/css/Registration-Form-with-Photo.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md border rounded-0 navigation-clean-button">
+        <div class="container"><a class="navbar-brand" href="#">ParcheU</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav me-auto"></ul><span class="navbar-text actions"> <a class="login" href="#">¿Aún no tienes cuenta?</a><a class="btn btn-light action-button" role="button" href="{% url 'registro' %}">Registrate ahora</a></span>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <section class="login-dark" style="height: 565px;">
+            <form method="post">
+                <h2 class="visually-hidden">Login Form</h2>
+                <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+                <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Correo"></div>
+                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Contraseña"></div>
+                <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Ingresar</button></div><a class="forgot" href="#">¿Has olvidado tu contraseña?</a>
+            </form>
+        </section>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
