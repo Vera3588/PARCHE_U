@@ -29,13 +29,23 @@
             <div class="image-holder"></div>
             <form method="post">
                 <h2 class="text-center"><strong>Crear una cuenta</strong>.</h2>
-                <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Codigo Estudiante"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Documento de Identidad"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Nombre"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Apellidos"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Celular"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Carrera"></div>
-                <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Correo Institucional"></div>
+                <div class="mb-3"><input class="form-control" type="number" name="codigo_estudiante" placeholder="Codigo Estudiante"></div>
+                <div class="mb-3"><input class="form-control" type="number" name="documento_identidad" placeholder="Documento de Identidad"></div>
+                <div class="mb-3"><input class="form-control" type="text" name="nombre" placeholder="Nombre"></div>
+                <div class="mb-3"><input class="form-control" type="text" name="apellidos" placeholder="Apellidos"></div>
+                <div class="mb-3"><input class="form-control" type="number" name="celular" placeholder="Celular"></div>
+                <div class="mb-3">
+                    <select class="form-control" name="carrera" placeholder="Carrera">
+                    <option>Carrera</option>         
+                    <option>Administración</option>
+                    <option>Ingenieria de sistemas</option>
+                    <option>Ingenieria matematica</option>
+                    <option>Ingenieria Fisica</option>
+                    <option>Mercadeo</option>
+
+                    </select>
+                </div>
+                <div class="mb-3"><input class="form-control" type="email" name="correo" placeholder="Correo Institucional"></div>
                 <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Contraseña"></div>
                 <div class="mb-3"><input class="form-control" type="password" name="password-repeat" placeholder="Contraseña (repetir)"></div>
                 <div class="mb-3">
