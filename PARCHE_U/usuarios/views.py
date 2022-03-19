@@ -18,6 +18,7 @@ def Inicio(request):
             print("Usuario=", detalleUsuario)
             request.session['correo'] = detalleUsuario.correo
             request.session['nombre'] = detalleUsuario.nombre
+            request.session['codigo_estudiante'] = detalleUsuario.codigo_estudiante
             login_check = True
             return render(request, "inicioapp.html")
         except models.Usuario.DoesNotExist as e:
@@ -40,15 +41,17 @@ def Registro(request):
         correo = request.POST['correo']
         password = request.POST['password']
         password_repeat = request.POST['password_repeat']
+        foto_perfil = request.POST[Image.open("C:/Users/vera3/Desktop/PARCHE_U/PARCHE_U/static/assets/img/nullprofile.jpg")]
 
         print(codigo_estudiante, documento_identidad, nombre, apellidos, celular, carrera, correo, password, password_repeat)
         if password != password_repeat:
             messages.info(request, 'Las contraseñas no coinciden')
 
         elif user.verificarCarrera(carrera) and user.verificarCodigoEstudiante(codigo_estudiante) and user.verificarCorreo(correo) and user.verificarDocumento(documento_identidad):
+    
             agregar = models.Usuario(codigo_estudiante = codigo_estudiante, documento_identidad = documento_identidad,
             nombre = nombre, apellidos = apellidos, celular = celular, carrera = carrera, correo = correo,
-            password = password, password_repeat = password_repeat)
+            password = password, password_repeat = password_repeat, foto_perfil = foto_perfil)
             agregar.save()
             messages.info(request, 'Se ha registrado exitosamente')
             return Inicio(request)
@@ -65,8 +68,12 @@ def Registro(request):
     return render(request, 'registro.html')
 
 def InicioApp(request):
-
     return render(request, 'inicioapp.html')
 
 def Inicio_muro(request):
     return render(request, 'inicio.html')
+
+def Perfil(request):
+    codigo = request.session['codigo_estudiante']
+    info_usuario = user.consultaUsuario(codigo)
+    return render(request, "perfil.html", {"info_usuario": info_usuario})

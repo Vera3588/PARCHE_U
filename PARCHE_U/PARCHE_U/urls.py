@@ -26,6 +26,7 @@ urlpatterns = [
     path('gustos/', views.InicioApp ,name ='inicioApp'),
     path('index/', views.logout_request ,name ='cerrar_sesion'),
     path('inicio/', views.Inicio_muro, name='inicio_muro'),
+    path('perfil/', views.Perfil, name='perfil'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

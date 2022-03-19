@@ -4,10 +4,10 @@
 <head>
     {% load static %}
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>proyecto</title>
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
-    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Amiko&amp;display=swap' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" >
+    <title>Perfil</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Amiko&amp;display=swap'%}">
     <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap' %}">
     <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css' %}">
@@ -31,24 +31,53 @@
                     <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
                 </ul>
                 <form class="me-auto search-form" target="_self">
-                    {% csrf_token %}
                     <div class="d-flex align-items-center" style="border-width: 1px;border-style: solid;width: 200px;"><label class="form-label d-flex mb-0" for="search-field"></label><input class="form-control search-field" type="search" id="search-field" name="search" style="width: 175px;"><i class="fa fa-search"></i></div>
-                </form>
-                <a class="btn btn-light action-button" role="button" href="{% url 'cerrar_sesion' %}" style="background: var(--bs-red);">Cerrar sesión</a>
+                </form><a class="btn btn-light action-button" role="button" href="{% url 'cerrar_sesion' %}" style="background: var(--bs-red);">Cerrar sesión</a>
             </div>
         </div>
     </nav>
-    <div class="container" style="width: 700px;">
-        <section class="contact-clean" style="height: 300px;">
-            <form method="post" style="height: 270px;">
-                {% csrf_token %}
-                <textarea class="form-control" name="mensaje" placeholder="Escribe algo" rows="14" required></textarea>
-                <div class="mb-3"></div>
-                <div class="mb-3"><h4>Subir imagen<h4></div>
-                <div class="mb-3"><input type="file" name="imagen" accept="image/jpeg" multiple/><button class="btn btn-primary" type="submit">Publicar</button></div>
-                <div class="mb-3"></div>
-            </form>
-        </section>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+      <div class="contenedor_campo">
+        <p class="campo" id="nombre"><strong>Nombre: </strong> 
+          {% if info_usuario %}
+          {{info_usuario.nombre}}
+          {% endif %}
+        </p>
+        <p class="campo" id="apellido"><strong>Apellidos: </strong>
+          {% if info_usuario %}
+          {{info_usuario.apellidos}}
+          {% endif %}
+        </p>
+        <p class="campo" id="cedula"><strong>Documento de identificación: </strong>
+          {% if info_usuario %}
+          {{info_usuario.documento_identidad}}
+          {% endif %}
+        </p>
+        <p class="campo" id="cedula"><strong>Código de estudiante: </strong>
+          {% if info_usuario %}
+          {{info_usuario.codigo_estudiante}}
+          {% endif %}
+        </p>
+        <p class="campo" id="telefono"><strong>Telefono: </strong>
+          {% if info_usuario %}
+          {{info_usuario.celular}}
+          {% endif %}
+        </p>
+        <p class="campo" id="correo"><strong>Correo: </strong>
+          {% if info_usuario %}
+          {{info_usuario.correo}}
+          {% endif %}
+        </p>
+        <p class="campo" id="fechaExpediccion"> <strong>Carrera: </strong>
+          {% if info_usuario %}
+          {{info_usuario.carrera}}
+          {% endif %}
+        </p>
+      </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

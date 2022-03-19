@@ -28,11 +28,11 @@ class Usuario(models.Model):
         verbose_name_plural = "usuarios"
 
 class Gustos(models.Model):
-    musica = models.CharField(max_length=500)
-    deportes = models.CharField(max_length=500)
-    series = models.CharField(max_length=500)
-    videojuegos = models.CharField(max_length=500)
-    literatura = models.CharField(max_length=500)
+    musica = models.CharField(max_length=500, null=True)
+    deportes = models.CharField(max_length=500, null=True)
+    series = models.CharField(max_length=500, null=True)
+    videojuegos = models.CharField(max_length=500, null=True)
+    literatura = models.CharField(max_length=500, null=True)
     codigo_estudiante = models.ForeignKey(Usuario,on_delete = models.CASCADE, null=True, blank=True)
     class Meta:
         verbose_name = "gusto"
