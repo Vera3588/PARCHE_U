@@ -28,30 +28,35 @@
         <div class="form-container">
             <div class="image-holder"></div>
             <form method="post">
+                {% csrf_token %}
                 <h2 class="text-center"><strong>Crear una cuenta</strong>.</h2>
-                <div class="mb-3"><input class="form-control" type="number" name="codigo_estudiante" placeholder="Codigo Estudiante"></div>
-                <div class="mb-3"><input class="form-control" type="number" name="documento_identidad" placeholder="Documento de Identidad"></div>
-                <div class="mb-3"><input class="form-control" type="text" name="nombre" placeholder="Nombre"></div>
-                <div class="mb-3"><input class="form-control" type="text" name="apellidos" placeholder="Apellidos"></div>
-                <div class="mb-3"><input class="form-control" type="number" name="celular" placeholder="Celular"></div>
+                {%for message in messages%}
+                    <div class="mb-3"><center><span style="color:red;">{{message}}</span></center> </div>
+                {% endfor %}
+                
+                <div class="mb-3"><input class="form-control" type="number" name="codigo_estudiante" id ="codigo" placeholder="Codigo Estudiante" required></div>
+                <div class="mb-3"><input class="form-control" type="number" name="documento_identidad" id="documento" placeholder="Documento de Identidad" required></div>
+                <div class="mb-3"><input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre" required></div>
+                <div class="mb-3"><input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required></div>
+                <div class="mb-3"><input class="form-control" type="number" name="celular" id="celular" placeholder="Celular" required></div>
                 <div class="mb-3">
-                    <select class="form-control" name="carrera" placeholder="Carrera">
+                    <select class="form-control" name="carrera" id="carrera" placeholder="Carrera" required>
                     <option>Carrera</option>         
                     <option>Administración</option>
-                    <option>Ingenieria de sistemas</option>
+                    <option>Ingeniería de sistemas</option>
                     <option>Ingenieria matematica</option>
                     <option>Ingenieria Fisica</option>
                     <option>Mercadeo</option>
 
                     </select>
                 </div>
-                <div class="mb-3"><input class="form-control" type="email" name="correo" placeholder="Correo Institucional"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Contraseña"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password-repeat" placeholder="Contraseña (repetir)"></div>
+                <div class="mb-3"><input class="form-control" type="email" name="correo" id="correo" placeholder="Correo Institucional" required></div>
+                <div class="mb-3"><input class="form-control" type="password" name="password" id="password" placeholder="Contraseña" required></div>
+                <div class="mb-3"><input class="form-control" type="password" name="password_repeat" id="password_repeat" placeholder="Contraseña (repetir)" required></div>
                 <div class="mb-3">
-                    <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">Estoy deacuerdo con los terminos de uso y el reglamento</label></div>
+                    <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox" required>Estoy deacuerdo con los terminos de uso y el reglamento</label></div>
                 </div>
-                <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Registrarse</button></div><a class="already" href="#"></a>
+                <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Registrarse</button></div>
             </form>
         </div>
     </section>
