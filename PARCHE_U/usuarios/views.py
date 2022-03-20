@@ -10,7 +10,7 @@ login_check = False
 def Inicio(request):
     global login_check
     if login_check:
-        return render(request, "inicioapp.html")
+        return render(request, 'inicio.html')
 
     if request.method == 'POST':
         try:
@@ -20,7 +20,7 @@ def Inicio(request):
             request.session['nombre'] = detalleUsuario.nombre
             request.session['codigo_estudiante'] = detalleUsuario.codigo_estudiante
             login_check = True
-            return render(request, "inicioapp.html")
+            return render(request, 'inicio.html')
         except models.Usuario.DoesNotExist as e:
             messages.info(request, "Correo y/o contraseña no son correctos")
     return render(request, 'index.html')
@@ -41,7 +41,6 @@ def Registro(request):
         correo = request.POST['correo']
         password = request.POST['password']
         password_repeat = request.POST['password_repeat']
-        foto_perfil = request.POST[Image.open("C:/Users/vera3/Desktop/PARCHE_U/PARCHE_U/static/assets/img/nullprofile.jpg")]
 
         print(codigo_estudiante, documento_identidad, nombre, apellidos, celular, carrera, correo, password, password_repeat)
         if password != password_repeat:
@@ -51,10 +50,10 @@ def Registro(request):
     
             agregar = models.Usuario(codigo_estudiante = codigo_estudiante, documento_identidad = documento_identidad,
             nombre = nombre, apellidos = apellidos, celular = celular, carrera = carrera, correo = correo,
-            password = password, password_repeat = password_repeat, foto_perfil = foto_perfil)
+            password = password, password_repeat = password_repeat)
             agregar.save()
             messages.info(request, 'Se ha registrado exitosamente')
-            return Inicio(request)
+            return render(request, 'index.html')
 
         elif len(password) <= 7:
             messages.info(request, 'La contraseña debe contener por lo menos 8 caracteres')
@@ -68,6 +67,22 @@ def Registro(request):
     return render(request, 'registro.html')
 
 def InicioApp(request):
+    codigo = request.session['codigo_estudiante']
+    print(codigo)
+    if request.method =='POST':
+        
+        musica = request.POST['musica']
+        deportes = request.POST['deportes']
+        series = request.POST['series']
+        videojuegos = request.POST['videojuegos']
+        literatura = request.POST['literatura']
+
+        agregar = models.Gustos(musica = musica, deportes = deportes, series=series,videojuegos=videojuegos,
+        literatura = literatura,codigo_estudiante_id = codigo)
+
+        agregar.save()
+        return Inicio_muro(request)
+        
     return render(request, 'inicioapp.html')
 
 def Inicio_muro(request):

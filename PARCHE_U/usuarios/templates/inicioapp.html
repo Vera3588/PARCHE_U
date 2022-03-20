@@ -22,11 +22,81 @@
         <link rel="stylesheet" href="{% static 'assets/css/Registration-Form-with-Photo.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/untitled.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+           $(document).ready(function(){
+               $('.form-check-input').click(function()
+                {
+                    var txt="";
+                    $('.form-check-input:checked').each(function(){
+                        txt+=$(this).val()+", "
+                    });
+                    $('#musica').val(txt);
+               });
+           });
+           $(document).ready(function(){
+            $('.form-check-input1').click(function()
+             {
+                 var txt="";
+                 $('.form-check-input1:checked').each(function(){
+                     txt+=$(this).val()+", "
+                 });
+                 $('#deportes').val(txt);
+            });
+        });
+        $(document).ready(function(){
+            $('.form-check-input2').click(function()
+             {
+                 var txt="";
+                 $('.form-check-input2:checked').each(function(){
+                     txt+=$(this).val()+", "
+                 });
+                 $('#series').val(txt);
+            });
+        });
+        $(document).ready(function(){
+            $('.form-check-input3').click(function()
+             {
+                 var txt="";
+                 $('.form-check-input3:checked').each(function(){
+                     txt+=$(this).val()+", "
+                 });
+                 $('#videojuegos').val(txt);
+            });
+        });
+        $(document).ready(function(){
+               $('.form-check-input4').click(function()
+                {
+                    var txt="";
+                    $('.form-check-input4:checked').each(function(){
+                        txt+=$(this).val()+", "
+                    });
+                    $('#literatura').val(txt);
+               });
+           });
+        </script>
     </head>
     
     <body>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="border-bottom-style: solid;">
+            <div class="container"><a class="navbar-brand" href="#">ParcheU</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
+                    </ul>
+                    <form class="me-auto search-form" target="_self">
+                        {% csrf_token %}
+                        <div class="d-flex align-items-center" style="border-width: 1px;border-style: solid;width: 200px;"><label class="form-label d-flex mb-0" for="search-field"></label><input class="form-control search-field" type="search" id="search-field" name="search" style="width: 175px;"><i class="fa fa-search"></i></div>
+                    </form>
+                    <a class="btn btn-light action-button" role="button" href="{% url 'cerrar_sesion' %}" style="background: var(--bs-red);">Cerrar sesión</a>
+                </div>
+            </div>
+        </nav>
         <div class="container">
-            <form style="text-align: justify;">
+            <form style="text-align: justify;" method="post">
                 {% csrf_token %}
                 <h1 style="text-align: left;">Gustos e intereses</h1>
                 <p>Cuentanos más acerca de ti</p>
@@ -38,36 +108,33 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"  id="formCheck-1"><label class="form-check-label" for="formCheck-1">Electronica</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox"  value="Electronica" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Electronica</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Reggaeton</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Reggaeton" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Reggaeton</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Romantica</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Romantica" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Romantica</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-4"><label class="form-check-label" for="formCheck-4">Pop</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Pop" id="formCheck-4"><label class="form-check-label" for="formCheck-4">Pop</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-5"><label class="form-check-label" for="formCheck-5">Rap</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Rap" id="formCheck-5"><label class="form-check-label" for="formCheck-5">Rap</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-8"><label class="form-check-label" for="formCheck-8">Rock</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Rock" id="formCheck-6"><label class="form-check-label" for="formCheck-6">Rock</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-6"><label class="form-check-label" for="formCheck-7">Salsa</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Salsa" id="formCheck-7"><label class="form-check-label" for="formCheck-7">Salsa</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-7"><label class="form-check-label" for="formCheck-7">Ballenato</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Ballenato" id="formCheck-8"><label class="form-check-label" for="formCheck-8">Ballenato</label></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr></tr>
-                            <tr></tr>
-                        </tbody>
                     </table>
+                    <input type="text" name="musica" id="musica">
                 </div>
                 <h4>Deportes</h4>
                 <div class="table-responsive">
@@ -75,36 +142,33 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-25"><label class="form-check-label" for="formCheck-1">Futbol&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Futbol" id="formCheck-9"><label class="form-check-label" for="formCheck-9">Futbol</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-26"><label class="form-check-label" for="formCheck-2">Baloncesto</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Baloncesto" id="formCheck-10"><label class="form-check-label" for="formCheck-10">Baloncesto</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-27"><label class="form-check-label" for="formCheck-3">voleyball</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Voleyball" id="formCheck-11"><label class="form-check-label" for="formCheck-11">Voleyball</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-28"><label class="form-check-label" for="formCheck-4">Ping pong</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Ping pong" id="formCheck-12"><label class="form-check-label" for="formCheck-12">Ping pong</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-29"><label class="form-check-label" for="formCheck-5">Tenis</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Tenis" id="formCheck-13"><label class="form-check-label" for="formCheck-13">Tenis</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-30"><label class="form-check-label" for="formCheck-8">Ajedrez</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Ajedrez" id="formCheck-14"><label class="form-check-label" for="formCheck-14">Ajedrez</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-31"><label class="form-check-label" for="formCheck-6">Futbol Americano</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="Futbol Americano" id="formCheck-15"><label class="form-check-label" for="formCheck-15">Futbol Americano</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-32"><label class="form-check-label" for="formCheck-7">BaseBall</label></div>
+                                    <div class="form-check"><input class="form-check-input1" type="checkbox" value="BaseBall" id="formCheck-16"><label class="form-check-label" for="formCheck-16">BaseBall</label></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr></tr>
-                            <tr></tr>
-                        </tbody>
                     </table>
+                    <input type="text" name="deportes" id="deportes">
                 </div>
                 <h4>Series / Películas</h4>
                 <div class="table-responsive">
@@ -112,36 +176,33 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-33"><label class="form-check-label" for="formCheck-1">Drama</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Drama" id="formCheck-17"><label class="form-check-label" for="formCheck-17">Drama</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-34"><label class="form-check-label" for="formCheck-2">Romantico</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Romantico" id="formCheck-18"><label class="form-check-label" for="formCheck-18">Romantico</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-35"><label class="form-check-label" for="formCheck-3">Accion</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Accion" id="formCheck-19"><label class="form-check-label" for="formCheck-19">Accion</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-36"><label class="form-check-label" for="formCheck-4">Aventura</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Aventura" id="formCheck-20"><label class="form-check-label" for="formCheck-20">Aventura</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-37"><label class="form-check-label" for="formCheck-5">Terror</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Terror" id="formCheck-21"><label class="form-check-label" for="formCheck-21">Terror</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-38"><label class="form-check-label" for="formCheck-8">Suspenso</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Suspenso" id="formCheck-22"><label class="form-check-label" for="formCheck-22">Suspenso</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-39"><label class="form-check-label" for="formCheck-6">Comedia</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Comedia" id="formCheck-23"><label class="form-check-label" for="formCheck-23">Comedia</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-40"><label class="form-check-label" for="formCheck-7">Historia</label></div>
+                                    <div class="form-check"><input class="form-check-input2" type="checkbox" value="Historia" id="formCheck-24"><label class="form-check-label" for="formCheck-24">Historia</label></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr></tr>
-                            <tr></tr>
-                        </tbody>
                     </table>
+                    <input type="text" name="series" id="series">
                 </div>
                 <h4>VideoJuegos</h4>
                 <div class="table-responsive">
@@ -149,36 +210,33 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-17"><label class="form-check-label" for="formCheck-1">Estrategia</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Estrategia" id="formCheck-25"><label class="form-check-label" for="formCheck-25">Estrategia</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-18"><label class="form-check-label" for="formCheck-2">Accion</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Accion" id="formCheck-26"><label class="form-check-label" for="formCheck-26">Accion</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-19"><label class="form-check-label" for="formCheck-3">Plataformero</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Plataformero" id="formCheck-27"><label class="form-check-label" for="formCheck-27">Plataformero</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-20"><label class="form-check-label" for="formCheck-4">Arcade</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Arcade" id="formCheck-28"><label class="form-check-label" for="formCheck-28">Arcade</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-21"><label class="form-check-label" for="formCheck-5">Deportivo</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Deportivo" id="formCheck-29"><label class="form-check-label" for="formCheck-29">Deportivo</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-22"><label class="form-check-label" for="formCheck-8">Simulacion</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Simulacion" id="formCheck-30"><label class="form-check-label" for="formCheck-30">Simulacion</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-23"><label class="form-check-label" for="formCheck-6">Musical</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="Musical" id="formCheck-31"><label class="form-check-label" for="formCheck-31">Musical</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-24"><label class="form-check-label" for="formCheck-7">MOBA</label></div>
+                                    <div class="form-check"><input class="form-check-input3" type="checkbox" value="MOBA" id="formCheck-32"><label class="form-check-label" for="formCheck-32">MOBA</label></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr></tr>
-                            <tr></tr>
-                        </tbody>
                     </table>
+                    <input type="text" name="videojuegos" id="videojuegos">
                 </div>
                 <h4>Literatura</h4>
                 <div class="table-responsive">
@@ -186,42 +244,35 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-9"><label class="form-check-label" for="formCheck-1">Cuentos</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Cuentos" id="formCheck-33"><label class="form-check-label" for="formCheck-33">Cuentos</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-10"><label class="form-check-label" for="formCheck-2">Romantico</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Romantico" id="formCheck-34"><label class="form-check-label" for="formCheck-34">Romantico</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-11"><label class="form-check-label" for="formCheck-3">Terror</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Terror" id="formCheck-35"><label class="form-check-label" for="formCheck-35">Terror</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-12"><label class="form-check-label" for="formCheck-4">Suspenso</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Suspenso" id="formCheck-36"><label class="form-check-label" for="formCheck-36">Suspenso</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-13"><label class="form-check-label" for="formCheck-5">Comedia</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Comedia" id="formCheck-37"><label class="form-check-label" for="formCheck-37">Comedia</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-14"><label class="form-check-label" for="formCheck-8">Historia</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Historia" id="formCheck-38"><label class="form-check-label" for="formCheck-38">Historia</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-15"><label class="form-check-label" for="formCheck-6">Investigación</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Investigación" id="formCheck-39"><label class="form-check-label" for="formCheck-39">Investigación</label></div>
                                 </th>
                                 <th>
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-16"><label class="form-check-label" for="formCheck-7">Novela</label></div>
+                                    <div class="form-check"><input class="form-check-input4" type="checkbox" value="Novela" id="formCheck-40"><label class="form-check-label" for="formCheck-40">Novela</label></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr></tr>
-                            <tr></tr>
-                        </tbody>
                     </table>
-            </div><button class="btn btn-primary" type="button" style="/*align-content: right;*/text-align: right;margin-left: 0px;right: 10px;">Enviar Respuestas</button>
-            <div class="btn btn-primary">
-                <a id="cerrar_sesion" style="color:#fff; text-decoration: none;" href="{% url 'cerrar_sesion' %}">
-                  Cerrar sesión</a
-                >
-              </div>
+                    <input type="text" name="literatura" id="literatura">
+                </div>
+            <button id="boton" class="btn btn-primary" type="submit" style="/*align-content: right;*/text-align: right;margin-left: 0px;right: 10px;">Guardar Respuestas</button>
         </form>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
