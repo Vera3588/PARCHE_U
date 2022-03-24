@@ -45,13 +45,7 @@ def Registro(request):
         print(codigo_estudiante, documento_identidad, nombre, apellidos, celular, carrera, correo, password, password_repeat)
         if password != password_repeat:
             messages.info(request, 'Las contraseñas no coinciden')
-        elif user.verificarCarrera(carrera) and user.verificarCodigoEstudiante(codigo_estudiante) and user.verificarCorreo(correo) and user.verificarDocumento(documento_identidad):
-            agregar = models.Usuario(codigo_estudiante = codigo_estudiante, documento_identidad = documento_identidad,
-            nombre = nombre, apellidos = apellidos, celular = celular, carrera = carrera, correo = correo,
-            password = password, password_repeat = password_repeat)
-            agregar.save()
-            messages.info(request, 'Se ha registrado exitosamente')
-            return render(request, 'index.html')
+        
         elif len(password) <= 7:
             messages.info(request, 'La contraseña debe contener por lo menos 8 caracteres')
 
