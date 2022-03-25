@@ -1,3 +1,4 @@
+from wsgiref.util import request_uri
 import usuarios.autenticacion as user
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -5,6 +6,10 @@ from django.contrib import messages
 from usuarios import models
 import sqlite3
 from PIL import Image
+
+from datetime import datetime
+now = datetime.now()
+
 
 login_check = False
 def Inicio(request):
@@ -69,7 +74,7 @@ def InicioApp(request):
     codigo = request.session['codigo_estudiante']
 
     if user.verificarGustos(codigo):
-        return render(request, 'inicio.html')
+        return Gustos(request)
     else:
         if request.method =='POST':   
             musica = request.POST['musica']
@@ -91,3 +96,8 @@ def Perfil(request):
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
     return render(request, "perfil.html", {"info_usuario": info_usuario})
+
+def Gustos(request):
+    codigo = request.session['codigo_estudiante']
+    info_gustos = user.consultaGusto(codigo)
+    return render(request, 'gustos.html', {"info_gustos":info_gustos})

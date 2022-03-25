@@ -42,44 +42,35 @@
     <br>
     <br>
     <div class="container">
-      <div class="contenedor_campo">
-        <p class="campo" id="nombre"><strong>Nombre: </strong> 
-          {% if info_usuario %}
-          {{info_usuario.nombre}}
-          {% endif %}
-        </p>
-        <p class="campo" ><strong>Apellidos: </strong>
-          {% if info_usuario %}
-          {{info_usuario.apellidos}}
-          {% endif %}
-        </p>
-        <p class="campo"><strong>Documento de identificación: </strong>
-          {% if info_usuario %}
-          {{info_usuario.documento_identidad}}
-          {% endif %}
-        </p>
-        <p class="campo" ><strong>Código de estudiante: </strong>
-          {% if info_usuario %}
-          {{info_usuario.codigo_estudiante}}
-          {% endif %}
-        </p>
-        <p class="campo" ><strong>Telefono: </strong>
-          {% if info_usuario %}
-          {{info_usuario.celular}}
-          {% endif %}
-        </p>
-        <p class="campo" ><strong>Correo: </strong>
-          {% if info_usuario %}
-          {{info_usuario.correo}}
-          {% endif %}
-        </p>
-        <p class="campo"> <strong>Carrera: </strong>
-          {% if info_usuario %}
-          {{info_usuario.carrera}}
-          {% endif %}
-        </p>
+        <div class="contenedor_campo">
+          <p class="campo"><strong>Musica</strong> 
+            {% if info_gustos %}
+            {{info_gustos.musica}}
+            {% endif %}
+          </p>
+          
+          <p class="campo"><strong>Deportes</strong>
+            {% if info_gustos %}
+            {{info_gustos.deportes}}
+            {% endif %}
+          </p>
+          <p class="campo" ><strong>Series / Peliculas </strong>
+            {% if info_gustos  %}
+            {{info_gustos.series}}
+            {% endif %}
+          </p>
+          <p class="campo" ><strong>VideoJuegos</strong>
+            {% if info_gustos %}
+            {{info_gustos.videojuegos}}
+            {% endif %}
+          </p>
+          <p class="campo" ><strong>Literatura</strong>
+            {% if info_gustos %}
+            {{info_gustos.literatura}}
+            {% endif %}
+          </p>
+        </div>
       </div>
-    </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 

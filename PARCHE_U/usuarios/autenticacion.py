@@ -46,6 +46,18 @@ def consultaUsuario(id):
     info["carrera"] = user.carrera
 
     print(info)
+    return info   
+
+def consultaGusto(id):
+    user = Gustos.objects.get(codigo_estudiante = id)
+    info = {}
+    info["musica"] = user.musica
+    info["deportes"] = user.deportes
+    info["series"] = user.series
+    info["videojuegos"] = user.videojuegos
+    info["literatura"] = user.literatura
+
+    print(info)
     return info                   
 
 

@@ -1,6 +1,7 @@
 from distutils.command.upload import upload
 from django.db import models
 
+
 class Estudiante(models.Model):
     codigo_estudiante = models.IntegerField(primary_key=True)
     documento_identidad = models.IntegerField()
@@ -38,13 +39,18 @@ class Gustos(models.Model):
         verbose_name = "gusto"
         verbose_name_plural = "gustos"
 
-'''
+
 class Publicaciones(models.Model):
     id_publicacion = models.IntegerField(primary_key=True)
     mensaje = models.CharField(max_length=1000, null=False)
     imagen = models.ImageField(upload_to='usuarios/images/publicaciones/', null=True)
+    fecha_publicacion = models.DateField(null=False)
+    hora_publicacion = models.TimeField(null=False)
     codigo_estudiante = models.ForeignKey(Usuario,on_delete = models.CASCADE, null=True, blank=True)
-
+    class Meta:
+        verbose_name = "publicacion"
+        verbose_name_plural = "publicaciones"
+'''
 class Comentarios
 
 '''
