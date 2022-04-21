@@ -50,6 +50,16 @@ class Publicaciones(models.Model):
     class Meta:
         verbose_name = "publicacion"
         verbose_name_plural = "publicaciones"
+
+class Psicologo(models.Model):
+    cedula = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=50)
+    apellidos = models.CharField(max_length=50)
+    correo = models.CharField(max_length=100)
+    password = models.CharField(max_length=20)
+    class Meta:
+        verbose_name = "psicologo"
+        verbose_name_plural = "psicologos"
 '''
 class Comentarios
 

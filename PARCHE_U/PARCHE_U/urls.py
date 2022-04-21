@@ -28,6 +28,8 @@ urlpatterns = [
     path('inicio/', views.Inicio_muro, name='inicio_muro'),
     path('perfil/', views.Perfil, name='perfil'),
     path('misGustos/', views.Gustos, name='gustos'),
+    path('psicologos/', views.Psicologos, name='psicologos'),
+    path('salto/', views.Salto, name='salto'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

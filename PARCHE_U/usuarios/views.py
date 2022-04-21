@@ -16,18 +16,24 @@ def Inicio(request):
     global login_check
     if login_check:
         return render(request, 'inicio.html')
-
     if request.method == 'POST':
-        try:
-            detalleUsuario = models.Usuario.objects.get(correo = request.POST['correo'], password = request.POST['password'])
-            print("Usuario=", detalleUsuario)
-            request.session['correo'] = detalleUsuario.correo
-            request.session['nombre'] = detalleUsuario.nombre
-            request.session['codigo_estudiante'] = detalleUsuario.codigo_estudiante
-            login_check = True
-            return render(request, 'inicio.html')
-        except models.Usuario.DoesNotExist as e:
-            messages.info(request, "Correo y/o contraseña no son correctos")
+        if request.POST['correo'] == "crear@psicologo.com" and request.POST['password'] == "1234" :
+            login_check = False
+            return render(request, 'salto.html')
+        else:
+            try:
+                detalleUsuario = models.Usuario.objects.get(correo = request.POST['correo'], password = request.POST['password'])
+                print("Usuario=", detalleUsuario)
+                request.session['correo'] = detalleUsuario.correo
+                request.session['nombre'] = detalleUsuario.nombre
+                request.session['codigo_estudiante'] = detalleUsuario.codigo_estudiante
+                login_check = True
+                return render(request, 'inicio.html')
+            except models.Usuario.DoesNotExist as e:
+                messages.info(request, "Correo y/o contraseña no son correctos")
+
+            except models.Usuario.DoesNotExist as e:
+                messages.info(request, "Correo y/o contraseña no son correctos")
     return render(request, 'index.html')
 
 def logout_request(request):
@@ -101,3 +107,20 @@ def Gustos(request):
     codigo = request.session['codigo_estudiante']
     info_gustos = user.consultaGusto(codigo)
     return render(request, 'gustos.html', {"info_gustos":info_gustos})
+
+def Psicologos(request):
+    if request.method =='POST':
+        cedula = request.POST['cedula']
+        nombre = request.POST['nombre']
+        apellidos = request.POST['apellidos']
+        correo = request.POST['correo']
+        password = request.POST['password']
+        if not user.verificarPsicologo(correo):
+            agregar = models.Psicologo(cedula = cedula, nombre = nombre, apellidos = apellidos,correo = correo, password = password)
+            agregar.save()
+            return render(request, 'inicio.html')
+    return render(request, 'registroPsicologos.html')
+
+def Salto(request):
+   
+    return render(request, 'salto.html')

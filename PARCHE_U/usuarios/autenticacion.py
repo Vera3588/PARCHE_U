@@ -1,7 +1,7 @@
 from django.db.models import query
 from usuarios.models import Estudiante
 from usuarios.models import Usuario
-from usuarios.models import Gustos
+from usuarios.models import Gustos, Psicologo
 import sqlite3
 
 def verificarPrevioRegistro(criterio, tipo = 'usuario'):
@@ -65,4 +65,10 @@ def verificarGustos(criterio, tipo = 'gustos'):
     query = False
     if tipo == 'gustos':
         query = Gustos.objects.filter(codigo_estudiante_id=criterio).exists()
+    return query
+
+def verificarPsicologo(criterio, tipo = 'psicologo'):
+    query = False
+    if tipo == 'psicologo':
+        query = Psicologo.objects.filter(correo=criterio).exists()
     return query

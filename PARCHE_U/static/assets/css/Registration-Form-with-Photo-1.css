@@ -12,8 +12,8 @@
 
 .register-photo .image-holder {
   display: table-cell;
-  width: 450px;
-  background: url(../../assets/img/social-media1.jpg);
+  width: 500px;
+  background: url(../../assets/img/meeting.jpg);
   background-size: cover;
 }
 
@@ -22,7 +22,7 @@
   max-width: 900px;
   width: 90%;
   margin: 0 auto;
-  box-shadow: 1px 1px 5px rgba(0,0,0,4);
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 
 .register-photo form {
@@ -31,7 +31,6 @@
   background-color: #ffffff;
   padding: 40px 60px;
   color: #505e6c;
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 }
 
 @media (max-width:991px) {
