@@ -1,4 +1,5 @@
 from django.db.models import query
+
 from usuarios.models import Estudiante
 from usuarios.models import Usuario
 from usuarios.models import Gustos, Psicologo
@@ -72,3 +73,22 @@ def verificarPsicologo(criterio, tipo = 'psicologo'):
     if tipo == 'psicologo':
         query = Psicologo.objects.filter(correo=criterio).exists()
     return query
+
+def actualizarUsuario(id, nombre, apellidos, celular):
+    target = Usuario.objects.get(codigo_estudiante = id)
+    target.nombre = nombre
+    target.apellidos = apellidos
+    target.celular = celular
+    target.save(update_fields=['nombre', 'apellidos', 'celular'])
+
+def verificarClave(id, password, tipo = 'usuario'):
+    query = False
+    # mirar posibilidad de consulta sql SELECT * FROM usuario_usuarios WHERE codigo_estudiante = 'id' AND password = 'password';
+    if tipo == 'usuario':
+        query = Usuario.objects.filter(password=password, codigo_estudiante = id).exists()
+    return query
+
+def actualizarClave(id,password_new):
+    target = Usuario.objects.get(codigo_estudiante = id)
+    target.password = password_new
+    target.save(update_fields=['password'])

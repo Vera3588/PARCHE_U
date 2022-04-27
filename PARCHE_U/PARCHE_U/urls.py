@@ -30,6 +30,8 @@ urlpatterns = [
     path('misGustos/', views.Gustos, name='gustos'),
     path('psicologos/', views.Psicologos, name='psicologos'),
     path('salto/', views.Salto, name='salto'),
+    path('editarPerfil/', views.EditarPerfil, name='editarPerfil'),
+    path('editarClave/', views.EditarClave, name='editarClave'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

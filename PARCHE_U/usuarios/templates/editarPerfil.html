@@ -38,52 +38,22 @@
         </div>
     </nav>
     <br>
-    <section class="register-photo">
-      <class="form-container">
-          <p class="campo" id="nombre"><strong>Nombre: </strong> 
-            {% if info_usuario %}
-            {{info_usuario.nombre}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Apellidos: </strong>
-            {% if info_usuario %}
-            {{info_usuario.apellidos}}
-            {% endif %}
-          </p>
-          <p class="campo"><strong>Documento de identificación: </strong>
-            {% if info_usuario %}
-            {{info_usuario.documento_identidad}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Código de estudiante: </strong>
-            {% if info_usuario %}
-            {{info_usuario.codigo_estudiante}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Telefono: </strong>
-            {% if info_usuario %}
-            {{info_usuario.celular}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Correo: </strong>
-            {% if info_usuario %}
-            {{info_usuario.correo}}
-            {% endif %}
-          </p>
-          <p class="campo"> <strong>Carrera: </strong>
-            {% if info_usuario %}
-            {{info_usuario.carrera}}
-            {% endif %}
-          </p>
-      <br>
-      <br>
-      <a class="btn btn-light action-button" role="button" href="{% url 'editarPerfil' %}" style="background: var(--bs-red); color:white;">Editar perfil</a>
-      &nbsp;&nbsp;&nbsp;
-      <a class="btn btn-light action-button" role="button" href="{% url 'editarClave' %}" style="background: var(--bs-red); color:white;">Cambiar Contraseña</a>
-    </div>
-  </div>
-</section>  
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
 
-</html>
+    <section class="register-photo">
+    <div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+        
+        <h2 class="text-center"><strong>Editar Información</strong>.</h2>
+        
+        <div class="mb-3"><input class="form-control" type="text" name="nombre" value="{% if info_usuario %}{{info_usuario.nombre}}{% endif %}" required></div>
+        <div class="mb-3"><input class="form-control" type="text" name="apellidos" value="{% if info_usuario %}{{info_usuario.apellidos}}{% endif %}" required></div>
+        <div class="mb-3"><input class="form-control" type="number" name="celular" value="{% if info_usuario %}{{info_usuario.celular}}{% endif %}" required></div>
+        <br>
+        <div class="mb-3">
+            <a class="btn btn-light action-button" role="button" href="{% url 'perfil' %}" style="background: var(--bs-gray); color:white;">Volver</a>
+            <button class="btn btn-light action-button" type="submit" style="background: var(--bs-red); color:white;">Actualizar Informacion</button>
+            </div>
+    </form>
+</div>
+</section>

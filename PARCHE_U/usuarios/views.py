@@ -121,6 +121,39 @@ def Psicologos(request):
             return render(request, 'inicio.html')
     return render(request, 'registroPsicologos.html')
 
+
+
 def Salto(request):
-   
     return render(request, 'salto.html')
+
+def EditarClave(request):
+    codigo = request.session['codigo_estudiante']
+    if request.method == 'POST':
+        password = request.POST['password']
+        password_repeat = request.POST['password_repeat']
+        password_new = request.POST['password_new']
+
+        if password_new != password_repeat:
+            messages.info(request, 'Las contraseñas no coinciden')
+        elif password == password_new:
+            messages.info(request,'La contraseña nueva no puede ser igual a la actual') 
+        elif len(password_new) <= 7:
+            messages.info(request, 'La contraseña debe contener por lo menos 8 caracteres')
+        elif not user.verificarClave(codigo, password):
+            messages.info(request,'Contraseña incorrecta')
+        else:
+            user.actualizarClave(codigo, password_new)
+            return Perfil(request)
+
+    return render(request,'editarClave.html')
+
+def EditarPerfil(request):
+    codigo = request.session['codigo_estudiante']
+    info_usuario = user.consultaUsuario(codigo)
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        apellidos = request.POST['apellidos']
+        celular = request.POST['celular']
+        user.actualizarUsuario(codigo,nombre,apellidos,celular)
+        return Perfil(request)
+    return render(request, 'editarPerfil.html',{"info_usuario": info_usuario})
