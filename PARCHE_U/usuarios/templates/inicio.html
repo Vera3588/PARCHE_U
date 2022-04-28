@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>proyecto</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
-    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Amiko&amp;display=swap' %}">
-    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiko&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap">
     <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Contact-Form-Clean.css' %}">
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/Navigation-with-Search.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Registration-Form-with-Photo.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Testimonials.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/untitled.css' %}">
 </head>
 
@@ -51,6 +52,29 @@
             </form>
         </section>
     </div>
+    {% for publicacion in publicaciones %}
+    <section class="testimonials-clean">
+        <div class="container">
+            <div class="row people">
+                <center><div class="col-md-6 col-lg-4 item">
+                    <div class="box">
+                        {%if publicacion.mensaje%}
+                        <p class="description">{{ publicacion.mensaje}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="author"><img class="rounded-circle" src="{% static 'assets/img/nullprofile.jpg' %}">
+                        {%if publicacion.codigo_estudiante_id%}
+                            <h5 class="name">{{publicacion.codigo_estudiante_id}}</h5>
+                        {% endif %}
+                        {%if publicacion.fecha_publicacion and publicacion.hora_publicacion %}
+                            <p class="title">{{publicacion.fecha_publicacion}}/ {{publicacion.hora_publicacion}}</p>
+                        {% endif %}                        
+                    </div>
+                </div>
+            </div></center>
+        </div>
+    </section>
+    {% endfor %}                      
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 

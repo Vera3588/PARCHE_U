@@ -44,8 +44,8 @@ class Publicaciones(models.Model):
     id_publicacion = models.IntegerField(primary_key=True)
     mensaje = models.CharField(max_length=1000, null=False)
     imagen = models.ImageField(upload_to='usuarios/images/publicaciones/', null=True)
-    fecha_publicacion = models.DateField(null=False)
-    hora_publicacion = models.TimeField(null=False)
+    fecha_publicacion = models.CharField(max_length=10,null=False)
+    hora_publicacion = models.CharField(max_length=10,null=False)
     codigo_estudiante = models.ForeignKey(Usuario,on_delete = models.CASCADE, null=True, blank=True)
     class Meta:
         verbose_name = "publicacion"

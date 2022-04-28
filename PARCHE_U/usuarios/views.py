@@ -1,4 +1,6 @@
 from wsgiref.util import request_uri
+from usuarios.models import Publicaciones
+from matplotlib.ft2font import HORIZONTAL
 import usuarios.autenticacion as user
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -9,7 +11,6 @@ from PIL import Image
 
 from datetime import datetime
 now = datetime.now()
-
 
 login_check = False
 def Inicio(request):
@@ -28,7 +29,7 @@ def Inicio(request):
                 request.session['nombre'] = detalleUsuario.nombre
                 request.session['codigo_estudiante'] = detalleUsuario.codigo_estudiante
                 login_check = True
-                return render(request, 'inicio.html')
+                return render(request, 'salto2.html')
             except models.Usuario.DoesNotExist as e:
                 messages.info(request, "Correo y/o contraseña no son correctos")
 
@@ -96,7 +97,29 @@ def InicioApp(request):
         return render(request, 'inicioapp.html')
 
 def Inicio_muro(request):
-    return render(request, 'inicio.html')
+    codigo = request.session['codigo_estudiante']
+
+    if request.method =='POST':
+        mensaje = request.POST['mensaje']
+        dia = now.day
+        mes = now.month
+        año = now.year
+
+        fecha= f'{año}-{mes}-{dia}'
+        
+        hora = now.hour
+        minutos = now.minute
+        segundos = now.second
+
+        tiempo = f'{hora}:{minutos}:{segundos}'
+
+        if not request.POST['imagen'] == None:
+            imagen = request.POST['imagen']
+        agregar = models.Publicaciones(mensaje = mensaje, imagen = imagen, fecha_publicacion = fecha, hora_publicacion = tiempo, codigo_estudiante_id = codigo)
+        agregar.save()
+        return Salto2(request)
+    publicaciones = Publicaciones.objects.filter(codigo_estudiante_id = codigo)
+    return render(request, 'inicio.html',{"publicaciones": publicaciones})
 
 def Perfil(request):
     codigo = request.session['codigo_estudiante']
@@ -125,6 +148,9 @@ def Psicologos(request):
 
 def Salto(request):
     return render(request, 'salto.html')
+
+def Salto2(request):
+    return render(request, 'salto2.html')
 
 def EditarClave(request):
     codigo = request.session['codigo_estudiante']

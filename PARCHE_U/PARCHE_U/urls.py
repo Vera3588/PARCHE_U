@@ -30,6 +30,7 @@ urlpatterns = [
     path('misGustos/', views.Gustos, name='gustos'),
     path('psicologos/', views.Psicologos, name='psicologos'),
     path('salto/', views.Salto, name='salto'),
+    path('salto2/', views.Salto2, name='salto2'),
     path('editarPerfil/', views.EditarPerfil, name='editarPerfil'),
     path('editarClave/', views.EditarClave, name='editarClave'),
 ]

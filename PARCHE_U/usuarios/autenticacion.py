@@ -2,7 +2,7 @@ from django.db.models import query
 
 from usuarios.models import Estudiante
 from usuarios.models import Usuario
-from usuarios.models import Gustos, Psicologo
+from usuarios.models import Gustos, Psicologo, Publicaciones
 import sqlite3
 
 def verificarPrevioRegistro(criterio, tipo = 'usuario'):
@@ -92,3 +92,9 @@ def actualizarClave(id,password_new):
     target = Usuario.objects.get(codigo_estudiante = id)
     target.password = password_new
     target.save(update_fields=['password'])
+
+def consultaPublicacion():
+    publicacion = Publicaciones.objects.all()
+
+    #print(info)
+    #return info   
