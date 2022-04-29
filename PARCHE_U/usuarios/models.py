@@ -23,6 +23,7 @@ class Usuario(models.Model):
     correo = models.CharField(max_length=100)
     password = models.CharField(max_length=20)
     password_repeat = models.CharField(max_length=20)
+    amigos = models.ManyToManyField("Usuario", blank = True, related_name = "lista_amigos")
     #foto_perfil = models.ImageField(upload_to='usuarios/images/foto_perfil/',null=True)
     class Meta:
         verbose_name = "usuario"
@@ -60,6 +61,11 @@ class Psicologo(models.Model):
     class Meta:
         verbose_name = "psicologo"
         verbose_name_plural = "psicologos"
+
+class Solicitud_Amistad(models.Model):
+    usuario_envia = models.ForeignKey(Usuario, related_name='usuario_envia', on_delete=models.CASCADE, related_query_name="enviador")
+    usuario_recibe = models.ForeignKey(Usuario, related_name='usuario_recibe', on_delete=models.CASCADE, related_query_name="recibidor")
+
 '''
 class Comentarios
 

@@ -5,7 +5,7 @@
     {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" >
-    <title>Perfil</title>
+    <title>Perfil - {{info_usuario.nombre}}</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Amiko&amp;display=swap'%}">
     <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap' %}">
@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'perfil' info_usuario.codigo_estudiante %}">Perfil</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
                 </ul>
@@ -77,9 +77,13 @@
           </p>
       <br>
       <br>
-      <a class="btn btn-light action-button" role="button" href="{% url 'editarPerfil' %}" style="background: var(--bs-red); color:white;">Editar perfil</a>
-      &nbsp;&nbsp;&nbsp;
-      <a class="btn btn-light action-button" role="button" href="{% url 'editarClave' %}" style="background: var(--bs-red); color:white;">Cambiar Contraseña</a>
+      {% if info_usuario.codigo_estudiante == usuario_actual.codigo_estudiante %}
+        <a class="btn btn-light action-button" role="button" href="{% url 'editarPerfil' %}" style="background: var(--bs-red); color:white;">Editar perfil</a>
+        &nbsp;&nbsp;&nbsp;
+        <a class="btn btn-light action-button" role="button" href="{% url 'editarClave' %}" style="background: var(--bs-red); color:white;">Cambiar Contraseña</a>
+      {% else %}
+      <a class="btn btn-light action-button" role="button" href="{% url 'enviar_solicitud' info_usuario.codigo_estudiante %}" style="background: var(--bs-red); color:white;">Añadir amigo</a>
+      {% endif %}
     </div>
   </div>
 </section>  

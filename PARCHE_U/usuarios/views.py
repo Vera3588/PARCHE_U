@@ -119,17 +119,26 @@ def Inicio_muro(request):
         agregar.save()
         return Salto2(request)
     publicaciones = Publicaciones.objects.filter(codigo_estudiante_id = codigo)
-    return render(request, 'inicio.html',{"publicaciones": publicaciones})
-
+    info_usuario = user.consultaUsuario(codigo)
+    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario})
+'''
 def Perfil(request):
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
     return render(request, "perfil.html", {"info_usuario": info_usuario})
+'''
+
+def Perfil(request, codigo_estudiante):
+    info_usuario = user.consultaUsuario(codigo_estudiante)
+    codigo_actual = request.session['codigo_estudiante']
+    usuario_actual = user.consultaUsuario(codigo_actual)
+    return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual})
 
 def Gustos(request):
     codigo = request.session['codigo_estudiante']
     info_gustos = user.consultaGusto(codigo)
-    return render(request, 'gustos.html', {"info_gustos":info_gustos})
+    info_usuario = user.consultaUsuario(codigo)
+    return render(request, 'gustos.html', {"info_gustos":info_gustos, "info_usuario":info_usuario})
 
 def Psicologos(request):
     if request.method =='POST':
@@ -169,9 +178,9 @@ def EditarClave(request):
             messages.info(request,'Contraseña incorrecta')
         else:
             user.actualizarClave(codigo, password_new)
-            return Perfil(request)
-
-    return render(request,'editarClave.html')
+            return Perfil(request,codigo)
+    info_usuario = user.consultaUsuario(codigo)
+    return render(request,'editarClave.html', {"info_usuario":info_usuario})
 
 def EditarPerfil(request):
     codigo = request.session['codigo_estudiante']
@@ -181,5 +190,28 @@ def EditarPerfil(request):
         apellidos = request.POST['apellidos']
         celular = request.POST['celular']
         user.actualizarUsuario(codigo,nombre,apellidos,celular)
-        return Perfil(request)
+        return Perfil(request,codigo)
     return render(request, 'editarPerfil.html',{"info_usuario": info_usuario})
+
+def Enviar_solicitud(request, codigo_estudiante):
+        codigo_actual = request.session['codigo_estudiante']
+        usuario_envia = models.Usuario.objects.get(codigo_estudiante=codigo_actual)
+        usuario_recibe = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
+        solicitud_amistad, created = models.Solicitud_Amistad.objects.get_or_create(usuario_envia=usuario_envia, usuario_recibe=usuario_recibe)
+        if created:
+            messages.success(request, 'solicitud de amistad enviada')
+            return Inicio_muro(request)
+        else:
+            messages.success(request, 'solicitud de amistad enviada anteriormente')
+            return Inicio_muro(request)
+    
+def Aceptar_solicitud(request, requestID):
+    solicitud_amistad = models.Solicitud_Amistad.objects.get(id=requestID)
+    if solicitud_amistad.usuario_recibe == request.user:
+        solicitud_amistad.usuario_recibe.amigos.add(solicitud_amistad.usuario_envia)
+        solicitud_amistad.usuario_envia.amigos.add(solicitud_amistad.usuario_recibe)
+        solicitud_amistad.delete()
+        return HttpResponse('Solicitud de amistad aceptada')
+    else:
+        return HttpResponse('Solicitud de amistad rechazada')
+

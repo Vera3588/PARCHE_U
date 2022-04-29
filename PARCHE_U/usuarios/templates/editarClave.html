@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'perfil' info_usuario.codigo_estudiante %}">Perfil</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
                 </ul>
@@ -54,7 +54,7 @@
         
         <br>
         <div class="mb-3">
-            <a class="btn btn-light action-button" role="button" href="{% url 'perfil' %}" style="background: var(--bs-gray); color:white;">Volver</a>
+            <a class="btn btn-light action-button" role="button" href="{% url 'perfil' info_usuario.codigo_estudiante %}" style="background: var(--bs-gray); color:white;">Volver</a>
             <button class="btn btn-light action-button" type="submit" style="background: var(--bs-red); color:white;">Actualizar Contraseña</button>
             </div>
     </form>
