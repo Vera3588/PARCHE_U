@@ -121,6 +121,7 @@ def Inicio_muro(request):
     publicaciones = Publicaciones.objects.filter(codigo_estudiante_id = codigo)
     info_usuario = user.consultaUsuario(codigo)
     return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario})
+
 '''
 def Perfil(request):
     codigo = request.session['codigo_estudiante']
@@ -132,7 +133,12 @@ def Perfil(request, codigo_estudiante):
     info_usuario = user.consultaUsuario(codigo_estudiante)
     codigo_actual = request.session['codigo_estudiante']
     usuario_actual = user.consultaUsuario(codigo_actual)
-    return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual})
+    info_usuario1 = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
+    usuario_actual_1 = models.Usuario.objects.get(codigo_estudiante = codigo_actual)
+    hay_amistad = models.Usuario.objects.filter(lista_amigos=usuario_actual_1)
+    hay_amistad2 = hay_amistad.filter(amigos = info_usuario1).exists()
+    hay_solicitud = models.Solicitud_Amistad.objects.filter(usuario_envia_id = codigo_actual, usuario_recibe_id = codigo_estudiante).exists()
+    return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2})
 
 def Gustos(request):
     codigo = request.session['codigo_estudiante']

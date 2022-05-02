@@ -81,6 +81,10 @@
         <a class="btn btn-light action-button" role="button" href="{% url 'editarPerfil' %}" style="background: var(--bs-red); color:white;">Editar perfil</a>
         &nbsp;&nbsp;&nbsp;
         <a class="btn btn-light action-button" role="button" href="{% url 'editarClave' %}" style="background: var(--bs-red); color:white;">Cambiar Contraseña</a>
+      {% elif hay_amistad %}
+          
+      {% elif hay_solicitud %}
+      <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Solicitud enviada</a>
       {% else %}
       <a class="btn btn-light action-button" role="button" href="{% url 'enviar_solicitud' info_usuario.codigo_estudiante %}" style="background: var(--bs-red); color:white;">Añadir amigo</a>
       {% endif %}

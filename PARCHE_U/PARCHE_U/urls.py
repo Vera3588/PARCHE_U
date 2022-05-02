@@ -34,7 +34,7 @@ urlpatterns = [
     path('editarPerfil/', views.EditarPerfil, name='editarPerfil'),
     path('editarClave/', views.EditarClave, name='editarClave'),
     path('enviar_solicitud/<int:codigo_estudiante>/', views.Enviar_solicitud, name='enviar_solicitud'),
-    path('aceptar_solicitud/<int:requestID>/', views.Aceptar_solicitud, name='aceptar_solicitud')
+    path('aceptar_solicitud/<int:requestID>/', views.Aceptar_solicitud, name='aceptar_solicitud'),
 
 ]
 
