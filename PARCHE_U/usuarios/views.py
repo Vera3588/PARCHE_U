@@ -1,4 +1,5 @@
 from wsgiref.util import request_uri
+from usuarios.models import Solicitud_Amistad
 from usuarios.models import Publicaciones
 from matplotlib.ft2font import HORIZONTAL
 import usuarios.autenticacion as user
@@ -119,8 +120,9 @@ def Inicio_muro(request):
         agregar.save()
         return Salto2(request)
     publicaciones = Publicaciones.objects.filter(codigo_estudiante_id = codigo)
+    solicitudes = Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo)
     info_usuario = user.consultaUsuario(codigo)
-    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario})
+    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario, "solicitudes":solicitudes})
 
 '''
 def Perfil(request):
@@ -138,7 +140,8 @@ def Perfil(request, codigo_estudiante):
     hay_amistad = models.Usuario.objects.filter(lista_amigos=usuario_actual_1)
     hay_amistad2 = hay_amistad.filter(amigos = info_usuario1).exists()
     hay_solicitud = models.Solicitud_Amistad.objects.filter(usuario_envia_id = codigo_actual, usuario_recibe_id = codigo_estudiante).exists()
-    return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2})
+    solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo_actual)
+    return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2, "solicitudesRecibe":solicitudesRecibe})
 
 def Gustos(request):
     codigo = request.session['codigo_estudiante']
@@ -206,18 +209,25 @@ def Enviar_solicitud(request, codigo_estudiante):
         solicitud_amistad, created = models.Solicitud_Amistad.objects.get_or_create(usuario_envia=usuario_envia, usuario_recibe=usuario_recibe)
         if created:
             messages.success(request, 'solicitud de amistad enviada')
-            return Inicio_muro(request)
+            return Perfil(request, codigo_estudiante=codigo_estudiante)
         else:
             messages.success(request, 'solicitud de amistad enviada anteriormente')
-            return Inicio_muro(request)
+            return Perfil(request, codigo_estudiante=codigo_estudiante)
     
 def Aceptar_solicitud(request, requestID):
     solicitud_amistad = models.Solicitud_Amistad.objects.get(id=requestID)
-    if solicitud_amistad.usuario_recibe == request.user:
+    if not solicitud_amistad.usuario_recibe == request.user:
         solicitud_amistad.usuario_recibe.amigos.add(solicitud_amistad.usuario_envia)
         solicitud_amistad.usuario_envia.amigos.add(solicitud_amistad.usuario_recibe)
         solicitud_amistad.delete()
-        return HttpResponse('Solicitud de amistad aceptada')
+        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
     else:
-        return HttpResponse('Solicitud de amistad rechazada')
+        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
 
+def Rechazar_Solicitud(request, requestID):
+    solicitud_amistad = models.Solicitud_Amistad.objects.get(id=requestID)
+    if not solicitud_amistad.usuario_recibe == request.user:
+        solicitud_amistad.delete()
+        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+    else:
+        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)

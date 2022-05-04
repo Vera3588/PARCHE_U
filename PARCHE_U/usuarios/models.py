@@ -65,7 +65,9 @@ class Psicologo(models.Model):
 class Solicitud_Amistad(models.Model):
     usuario_envia = models.ForeignKey(Usuario, related_name='usuario_envia', on_delete=models.CASCADE, related_query_name="enviador")
     usuario_recibe = models.ForeignKey(Usuario, related_name='usuario_recibe', on_delete=models.CASCADE, related_query_name="recibidor")
-
+    class Meta:
+        verbose_name = "solicitud"
+        verbose_name_plural = "solicituds"
 '''
 class Comentarios
 

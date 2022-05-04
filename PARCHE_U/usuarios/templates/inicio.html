@@ -31,16 +31,7 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'perfil' info_usuario.codigo_estudiante %}">Perfil</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Dropdown
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                    
                 </ul>
                 <form class="me-auto search-form" target="_self">
                     {% csrf_token %}
@@ -50,7 +41,8 @@
             </div>
         </div>
     </nav>
-    <div class="container" style="width: 700px;">
+
+     <div class="container" style="width: 700px;">
         <section class="contact-clean" style="height: 300px;">
             <form method="post" style="height: 270px;">
                 {% csrf_token %}
@@ -62,6 +54,8 @@
             </form>
         </section>
     </div>
+    
+    
     {% for publicacion in publicaciones %}
     <section class="testimonials-clean">
         <div class="container">
@@ -84,7 +78,7 @@
             </div></center>
         </div>
     </section>
-    {% endfor %}                      
+    {% endfor %}
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 

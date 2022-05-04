@@ -81,6 +81,18 @@
         <a class="btn btn-light action-button" role="button" href="{% url 'editarPerfil' %}" style="background: var(--bs-red); color:white;">Editar perfil</a>
         &nbsp;&nbsp;&nbsp;
         <a class="btn btn-light action-button" role="button" href="{% url 'editarClave' %}" style="background: var(--bs-red); color:white;">Cambiar Contraseña</a>
+        <br>
+        <br>
+        <ul class="list-group">
+          <li class="list-group-item active" aria-current="true">Solicitudes de amistad</li>
+          {% for Solicitud_Amistad in solicitudesRecibe %}
+          <li class="list-group-item">
+            {{Solicitud_Amistad.usuario_envia.nombre}} {{Solicitud_Amistad.usuario_envia.apellidos}} quiere ser tu amigo 
+            <a class="btn btn-light action-button" role="button" href="{% url 'aceptar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Aceptar Solicitud</a> o 
+            <a class="btn btn-light action-button" role="button" href="{% url 'rechazar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Rechazar Solicitud</a> 
+          </li>
+          {% endfor %}
+        </ul>
       {% elif hay_amistad %}
           
       {% elif hay_solicitud %}
