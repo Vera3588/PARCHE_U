@@ -35,7 +35,7 @@ urlpatterns = [
     path('editarClave/', views.EditarClave, name='editarClave'),
     path('enviar_solicitud/<int:codigo_estudiante>/', views.Enviar_solicitud, name='enviar_solicitud'),
     path('aceptar_solicitud/<int:requestID>/', views.Aceptar_solicitud, name='aceptar_solicitud'),
-    
+    path('rechazar_solicitud/<int:requestID>/', views.Rechazar_Solicitud, name='rechazar_solicitud'),
 ]
 '''path('rechazar_solicitud/<int:requestID>/', views.Rechazar_solicitud, name='rechazar_solicitud'),'''
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

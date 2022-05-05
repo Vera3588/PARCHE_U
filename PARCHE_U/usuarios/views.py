@@ -82,6 +82,7 @@ def InicioApp(request):
     codigo = request.session['codigo_estudiante']
 
     if user.verificarGustos(codigo):
+        info_usuario = user.consultaUsuario(codigo)
         return Gustos(request)
     else:
         if request.method =='POST':   
@@ -94,8 +95,10 @@ def InicioApp(request):
             agregar = models.Gustos(musica = musica, deportes = deportes, series=series,videojuegos=videojuegos,
             literatura = literatura,codigo_estudiante_id = codigo)
             agregar.save()
-            return Inicio_muro(request)
-        return render(request, 'inicioapp.html')
+            info_usuario = user.consultaUsuario(codigo)
+            return Inicio_muro(request,{'info_usuario':info_usuario})
+        info_usuario = user.consultaUsuario(codigo)
+        return render(request, 'inicioapp.html',{'info_usuario':info_usuario})
 
 def Inicio_muro(request):
     codigo = request.session['codigo_estudiante']
