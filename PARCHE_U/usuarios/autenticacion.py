@@ -36,16 +36,25 @@ def verificarCarrera(criterio, tipo = 'estudiante'):
     return query
 
 def consultaUsuario(id):
-    user = Usuario.objects.get(codigo_estudiante = id)
-    info = {}
-    info["codigo_estudiante"] = user.codigo_estudiante
-    info["documento_identidad"] = user.documento_identidad
-    info["nombre"] = user.nombre
-    info["apellidos"] = user.apellidos
-    info["celular"] = user.celular
-    info["correo"] = user.correo
-    info["carrera"] = user.carrera
-
+    es_usuario = Usuario.objects.filter(codigo_estudiante = id).exists()
+    es_psicologo = Psicologo.objects.filter(cedula = id).exists()
+    if es_usuario:
+        user = Usuario.objects.get(codigo_estudiante = id)
+        info = {}
+        info["codigo_estudiante"] = user.codigo_estudiante
+        info["documento_identidad"] = user.documento_identidad
+        info["nombre"] = user.nombre
+        info["apellidos"] = user.apellidos
+        info["celular"] = user.celular
+        info["correo"] = user.correo
+        info["carrera"] = user.carrera
+    elif es_psicologo:
+        user = Psicologo.objects.get(cedula=id)
+        info = {}
+        info["codigo_estudiante"] = user.cedula
+        info["nombre"] = user.nombre
+        info["apellidos"] = user.apellidos
+        info["correo"] = user.correo
     print(info)
     return info   
 

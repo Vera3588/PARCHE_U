@@ -52,17 +52,7 @@
           </p>
           <p class="campo"><strong>Documento de identificación: </strong>
             {% if info_usuario %}
-            {{info_usuario.documento_identidad}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Código de estudiante: </strong>
-            {% if info_usuario %}
             {{info_usuario.codigo_estudiante}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Telefono: </strong>
-            {% if info_usuario %}
-            {{info_usuario.celular}}
             {% endif %}
           </p>
           <p class="campo" ><strong>Correo: </strong>
@@ -70,36 +60,8 @@
             {{info_usuario.correo}}
             {% endif %}
           </p>
-          <p class="campo"> <strong>Carrera: </strong>
-            {% if info_usuario %}
-            {{info_usuario.carrera}}
-            {% endif %}
-          </p>
       <br>
       <br>
-      {% if info_usuario.codigo_estudiante == usuario_actual.codigo_estudiante %}
-        <a class="btn btn-light action-button" role="button" href="{% url 'editarPerfil' %}" style="background: var(--bs-red); color:white;">Editar perfil</a>
-        &nbsp;&nbsp;&nbsp;
-        <a class="btn btn-light action-button" role="button" href="{% url 'editarClave' %}" style="background: var(--bs-red); color:white;">Cambiar Contraseña</a>
-        <br>
-        <br>
-        <ul class="list-group">
-          <li class="list-group-item active" aria-current="true">Solicitudes de amistad</li>
-          {% for Solicitud_Amistad in solicitudesRecibe %}
-          <li class="list-group-item">
-            {{Solicitud_Amistad.usuario_envia.nombre}} {{Solicitud_Amistad.usuario_envia.apellidos}} quiere ser tu amigo 
-            <a class="btn btn-light action-button" role="button" href="{% url 'aceptar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Aceptar Solicitud</a> o 
-            <a class="btn btn-light action-button" role="button" href="{% url 'rechazar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Rechazar Solicitud</a> 
-          </li>
-          {% endfor %}
-        </ul>
-      {% elif hay_amistad %}
-          
-      {% elif hay_solicitud %}
-      <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Solicitud enviada</a>
-      {% else %}
-      <a class="btn btn-light action-button" role="button" href="{% url 'enviar_solicitud' info_usuario.codigo_estudiante %}" style="background: var(--bs-red); color:white;">Añadir amigo</a>
-      {% endif %}
     </div>
   </div>
 </section>  

@@ -4,7 +4,7 @@ from usuarios.models import Publicaciones
 from matplotlib.ft2font import HORIZONTAL
 import usuarios.autenticacion as user
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.contrib import messages
 from usuarios import models
 import sqlite3
@@ -127,24 +127,28 @@ def Inicio_muro(request):
     info_usuario = user.consultaUsuario(codigo)
     return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario, "solicitudes":solicitudes})
 
-'''
-def Perfil(request):
-    codigo = request.session['codigo_estudiante']
-    info_usuario = user.consultaUsuario(codigo)
-    return render(request, "perfil.html", {"info_usuario": info_usuario})
-'''
-
 def Perfil(request, codigo_estudiante):
-    info_usuario = user.consultaUsuario(codigo_estudiante)
-    codigo_actual = request.session['codigo_estudiante']
-    usuario_actual = user.consultaUsuario(codigo_actual)
-    info_usuario1 = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
-    usuario_actual_1 = models.Usuario.objects.get(codigo_estudiante = codigo_actual)
-    hay_amistad = models.Usuario.objects.filter(lista_amigos=usuario_actual_1)
-    hay_amistad2 = hay_amistad.filter(amigos = info_usuario1).exists()
-    hay_solicitud = models.Solicitud_Amistad.objects.filter(usuario_envia_id = codigo_actual, usuario_recibe_id = codigo_estudiante).exists()
-    solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo_actual)
-    return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2, "solicitudesRecibe":solicitudesRecibe})
+        es_estudiante = models.Usuario.objects.filter(codigo_estudiante=codigo_estudiante).exists()
+        es_psicologo = models.Psicologo.objects.filter(cedula=codigo_estudiante).exists()
+        if es_psicologo == True:
+            codigo_actual = request.session['codigo_estudiante']
+            info_usuario = user.consultaUsuario(codigo_estudiante)
+            usuario_actual = user.consultaUsuario(codigo_actual)
+            return render(request, "perfilpsicologo.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual})
+        elif es_estudiante == True:
+            info_usuario = user.consultaUsuario(codigo_estudiante)
+            info_usuario1 = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
+            codigo_actual = request.session['codigo_estudiante']
+            usuario_actual = user.consultaUsuario(codigo_actual)
+            usuario_actual_1 = models.Usuario.objects.get(codigo_estudiante = codigo_actual)
+            hay_amistad = models.Usuario.objects.filter(lista_amigos=usuario_actual_1)
+            hay_amistad2 = hay_amistad.filter(amigos = info_usuario1).exists()
+            hay_solicitud = models.Solicitud_Amistad.objects.filter(usuario_envia_id = codigo_actual, usuario_recibe_id = codigo_estudiante).exists()
+            solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo_actual)
+            return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2, "solicitudesRecibe":solicitudesRecibe})
+        else:
+            html = "<html><body>El usuario no existe</body></html>"
+            return HttpResponse(html)
 
 def Gustos(request):
     codigo = request.session['codigo_estudiante']
@@ -162,9 +166,8 @@ def Psicologos(request):
         if not user.verificarPsicologo(correo):
             agregar = models.Psicologo(cedula = cedula, nombre = nombre, apellidos = apellidos,correo = correo, password = password)
             agregar.save()
-            return render(request, 'inicio.html')
+            return render(request, 'inicioPsicologo.html', {"cedula":cedula})
     return render(request, 'registroPsicologos.html')
-
 
 
 def Salto(request):
@@ -172,6 +175,10 @@ def Salto(request):
 
 def Salto2(request):
     return render(request, 'salto2.html')
+
+def SaltoEditar(request, codigo):
+    return render(request, 'saltoeditarperfil.html', {"codigo":codigo})
+
 
 def EditarClave(request):
     codigo = request.session['codigo_estudiante']
@@ -190,7 +197,7 @@ def EditarClave(request):
             messages.info(request,'Contraseña incorrecta')
         else:
             user.actualizarClave(codigo, password_new)
-            return Perfil(request,codigo)
+            return SaltoEditar(request,codigo)
     info_usuario = user.consultaUsuario(codigo)
     return render(request,'editarClave.html', {"info_usuario":info_usuario})
 
@@ -202,7 +209,7 @@ def EditarPerfil(request):
         apellidos = request.POST['apellidos']
         celular = request.POST['celular']
         user.actualizarUsuario(codigo,nombre,apellidos,celular)
-        return Perfil(request,codigo)
+        return SaltoEditar(request,codigo)
     return render(request, 'editarPerfil.html',{"info_usuario": info_usuario})
 
 def Enviar_solicitud(request, codigo_estudiante):
@@ -216,7 +223,7 @@ def Enviar_solicitud(request, codigo_estudiante):
         else:
             messages.success(request, 'solicitud de amistad enviada anteriormente')
             return Perfil(request, codigo_estudiante=codigo_estudiante)
-    
+
 def Aceptar_solicitud(request, requestID):
     solicitud_amistad = models.Solicitud_Amistad.objects.get(id=requestID)
     if not solicitud_amistad.usuario_recibe == request.user:
