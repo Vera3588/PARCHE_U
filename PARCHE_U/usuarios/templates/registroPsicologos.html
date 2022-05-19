@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,30 +8,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>proyecto</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Amiko&amp;display=swap' %}">
-    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap' %}">
-    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700' %}">
     <link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/Contact-Form-Clean.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Header-Dark.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Dark.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Navigation-with-Button.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/Navigation-with-Search.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Registration-Form-with-Photo-1.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/untitled.css' %}">
 </head>
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md border rounded-0 navigation-clean-button">
         <div class="container"><a class="navbar-brand" href="#">ParcheU</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav me-auto"></ul><span class="navbar-text actions"><a class="btn btn-light action-button" role="button" href="{% url 'inicio' %}">Volver</a></span>
+                <ul class="navbar-nav me-auto"></ul><span class="navbar-text actions"> <a class="login" href="#">¿Ya estás registrado?</a><a class="btn btn-light action-button" role="button" href="{% url 'inicio' %}">Iniciar sesión</a></span>
             </div>
         </div>
     </nav>
+    <section class="register-photo">
         <div class="form-container">
-            <div class="image-holder"></div>
+            <div class="image-holder">
+            </div>
             <form method="post">
                 {% csrf_token %}
                 <h2 class="text-center"><strong>Crear Cuenta</strong>.</h2>

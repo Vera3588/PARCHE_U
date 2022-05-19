@@ -24,7 +24,7 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="border-bottom-style: solid;">
-        <div class="container"><a class="navbar-brand" href="{% url 'inicio_muro' %}">ParcheU</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="nav-link" href="{% url 'inicio_muro' %}"><img src="{% static 'assets/img/Logo.jpg' %}"></img></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
@@ -57,27 +57,29 @@
     
     
     {% for publicacion in publicaciones %}
-    <section class="testimonials-clean">
-        <div class="container">
-            <div class="row people">
-                <center><div class="col-md-6 col-lg-4 item">
-                    <div class="box">
-                        {%if publicacion.mensaje%}
-                        <p class="description">{{ publicacion.mensaje}}</p>
-                        {% endif %}
-                    </div>
-                    <div class="author"><img class="rounded-circle" src="{% static 'assets/img/nullprofile.jpg' %}">
-                        {%if publicacion.codigo_estudiante_id%}
-                            <h5 class="name">{{publicacion.codigo_estudiante_id}}</h5>
-                        {% endif %}
-                        {%if publicacion.fecha_publicacion and publicacion.hora_publicacion %}
-                            <p class="title">{{publicacion.fecha_publicacion}}/ {{publicacion.hora_publicacion}}</p>
-                        {% endif %}                        
-                    </div>
+        {% for publicacion1 in publicaciones1 %}
+            <section class="testimonials-clean">
+                <div class="container">
+                    <div class="row people">
+                        <center><div class="col-md-6 col-lg-4 item">
+                            <div class="box">
+                                {%if publicacion.mensaje%}
+                                    <p class="description">{{ publicacion.mensaje}}</p>
+                                {% endif %}
+                            </div>
+                            <div class="author"><img class="rounded-circle" src="{% static 'assets/img/nullprofile.jpg' %}">
+                                {%if publicacion1.nombre%}
+                                    <h5 class="name">{{publicacion1.nombre}} {{publicacion1.apellidos}}</h5>
+                                {% endif %}
+                                {%if publicacion.fecha_publicacion and publicacion.hora_publicacion %}
+                                    <p class="title">{{publicacion.fecha_publicacion}}/ {{publicacion.hora_publicacion}}</p>
+                                {% endif %}                        
+                            </div>
+                        </div>
+                    </div></center>
                 </div>
-            </div></center>
-        </div>
-    </section>
+            </section>
+        {% endfor %}
     {% endfor %}
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

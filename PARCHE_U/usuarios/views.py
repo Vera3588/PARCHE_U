@@ -1,6 +1,6 @@
 from wsgiref.util import request_uri
 from usuarios.models import Solicitud_Amistad
-from usuarios.models import Publicaciones
+from usuarios.models import Publicaciones, Usuario
 from matplotlib.ft2font import HORIZONTAL
 import usuarios.autenticacion as user
 from django.shortcuts import render
@@ -11,7 +11,7 @@ import sqlite3
 from PIL import Image
 
 from datetime import datetime
-now = datetime.now()
+
 
 login_check = False
 def Inicio(request):
@@ -22,6 +22,13 @@ def Inicio(request):
         if request.POST['correo'] == "crear@psicologo.com" and request.POST['password'] == "1234" :
             login_check = False
             return render(request, 'salto.html')
+        elif models.Psicologo.objects.filter(correo = request.POST['correo']).exists():
+            detalleUsuario = models.Psicologo.objects.get(correo = request.POST['correo'], password = request.POST['password'])
+            request.session['correo'] = detalleUsuario.correo
+            request.session['nombre'] = detalleUsuario.nombre
+            request.session['cedula'] = detalleUsuario.cedula
+            login_check = True
+            return render(request, 'saltoInicioPsicologos.html')
         else:
             try:
                 detalleUsuario = models.Usuario.objects.get(correo = request.POST['correo'], password = request.POST['password'])
@@ -31,9 +38,6 @@ def Inicio(request):
                 request.session['codigo_estudiante'] = detalleUsuario.codigo_estudiante
                 login_check = True
                 return render(request, 'salto2.html')
-            except models.Usuario.DoesNotExist as e:
-                messages.info(request, "Correo y/o contraseña no son correctos")
-
             except models.Usuario.DoesNotExist as e:
                 messages.info(request, "Correo y/o contraseña no son correctos")
     return render(request, 'index.html')
@@ -104,6 +108,7 @@ def Inicio_muro(request):
     codigo = request.session['codigo_estudiante']
 
     if request.method =='POST':
+        now = datetime.now()
         mensaje = request.POST['mensaje']
         dia = now.day
         mes = now.month
@@ -122,10 +127,11 @@ def Inicio_muro(request):
         agregar = models.Publicaciones(mensaje = mensaje, imagen = imagen, fecha_publicacion = fecha, hora_publicacion = tiempo, codigo_estudiante_id = codigo)
         agregar.save()
         return Salto2(request)
-    publicaciones = Publicaciones.objects.filter(codigo_estudiante_id = codigo)
+    publicaciones =reversed(Publicaciones.objects.filter(codigo_estudiante_id = codigo))
+    publicaciones1 = Usuario.objects.filter(codigo_estudiante = codigo)
     solicitudes = Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo)
     info_usuario = user.consultaUsuario(codigo)
-    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario, "solicitudes":solicitudes})
+    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario, "solicitudes":solicitudes,"publicaciones1": publicaciones1,})
 
 def Perfil(request, codigo_estudiante):
         es_estudiante = models.Usuario.objects.filter(codigo_estudiante=codigo_estudiante).exists()
@@ -178,7 +184,8 @@ def Salto2(request):
 
 def SaltoEditar(request, codigo):
     return render(request, 'saltoeditarperfil.html', {"codigo":codigo})
-
+def SaltoInicioPsicologos(request):
+    return render(request, 'saltoInicioPsicologos.html')
 
 def EditarClave(request):
     codigo = request.session['codigo_estudiante']
@@ -188,13 +195,13 @@ def EditarClave(request):
         password_new = request.POST['password_new']
 
         if password_new != password_repeat:
-            messages.info(request, 'Las contraseñas no coinciden')
+            messages.info(request, 'Las nuevas contraseñas no coinciden')
         elif password == password_new:
             messages.info(request,'La contraseña nueva no puede ser igual a la actual') 
         elif len(password_new) <= 7:
             messages.info(request, 'La contraseña debe contener por lo menos 8 caracteres')
         elif not user.verificarClave(codigo, password):
-            messages.info(request,'Contraseña incorrecta')
+            messages.info(request,'Contraseña actual incorrecta')
         else:
             user.actualizarClave(codigo, password_new)
             return SaltoEditar(request,codigo)
@@ -241,3 +248,5 @@ def Rechazar_Solicitud(request, requestID):
         return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
     else:
         return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+def InicioPsicologos(request):
+    return render(request, 'inicioPsicologo.html')

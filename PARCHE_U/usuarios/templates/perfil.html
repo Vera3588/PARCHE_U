@@ -94,11 +94,11 @@
           {% endfor %}
         </ul>
       {% elif hay_amistad %}
-          
+        <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Amigos</a>
       {% elif hay_solicitud %}
-      <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Solicitud enviada</a>
+        <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Solicitud enviada</a>
       {% else %}
-      <a class="btn btn-light action-button" role="button" href="{% url 'enviar_solicitud' info_usuario.codigo_estudiante %}" style="background: var(--bs-red); color:white;">Añadir amigo</a>
+        <a class="btn btn-light action-button" role="button" href="{% url 'enviar_solicitud' info_usuario.codigo_estudiante %}" style="background: var(--bs-red); color:white;">Añadir amigo</a>
       {% endif %}
     </div>
   </div>
