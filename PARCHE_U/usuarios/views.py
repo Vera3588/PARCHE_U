@@ -90,7 +90,7 @@ def InicioApp(request):
         return Gustos(request)
     else:
         if request.method =='POST':   
-            musica = request.POST['musica']
+            musica = request.POST['musica']== 'actualizar'
             deportes = request.POST['deportes']
             series = request.POST['series']
             videojuegos = request.POST['videojuegos']

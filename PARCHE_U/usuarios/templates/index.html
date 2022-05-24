@@ -18,10 +18,12 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md border rounded-0 navigation-clean-button">
-        <div class="container"><a class="navbar-brand" href="#">ParcheU</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav me-auto"></ul><span class="navbar-text actions"> <a class="login" href="#">¿Aún no tienes cuenta?</a><a class="btn btn-light action-button" role="button" href="{% url 'registro' %}">Registrate ahora</a></span>
-            </div>
+        <div class="container">
+            <a class="navbar-brand" href="#">ParcheU</a> 
+            <ul class="navbar-nav me-auto"></ul><span class="navbar-text actions"> 
+                <a class="login" href="#">¿Aún no tienes cuenta?</a>
+                <a class="btn btn-light action-button" role="button" href="{% url 'registro' %}">Registrate ahora</a>
+            </span>
         </div>
     </nav>
     <div class="container">
@@ -29,7 +31,7 @@
             <form method="post">
                 {% csrf_token %}
                 {%for message in messages%}
-                    <span>{{message}}</span>
+                    <!--<span>{{message}}</span>-->
                 {% endfor %}
                 <h2 class="visually-hidden">Login Form</h2>
                 <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
