@@ -5,7 +5,7 @@
     {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Parche U</title>
+    <title>{{info_usuario.nombre}} {{info_usuario.apellidos}}/ParcheU</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiko&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap">
@@ -50,7 +50,7 @@
                 <div class="mb-3"></div>
                 <div class="mb-3"><h4>Subir imagen<h4></div>
                 <div class="mb-3">
-                    <input type="file" name="imagen" accept="image/jpeg" multiple/>
+                    <input type="file" name="imagen" accept="image/*"/>
                     <button class="btn btn-primary" type="submit">Publicar</button></div>
                 <div class="mb-3"></div>
             </form>
@@ -69,7 +69,7 @@
                                     <p class="description">{{ publicacion.mensaje}}</p>
                                 {% endif %}
                             </div>
-                            <div class="author"><img class="rounded-circle" src="{% static 'assets/img/nullprofile.jpg' %}">
+                            <div class="author"><img class="rounded-circle" src="{{publicacion1.foto_perfil.url}}">
                                 {%if publicacion1.nombre%}
                                     <h5 class="name">{{publicacion1.nombre}} {{publicacion1.apellidos}}</h5>
                                 {% endif %}

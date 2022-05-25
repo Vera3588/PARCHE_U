@@ -9,7 +9,7 @@ from django.contrib import messages
 from usuarios import models
 import sqlite3
 from PIL import Image
-
+import cv2
 from datetime import datetime
 
 
@@ -22,13 +22,6 @@ def Inicio(request):
         if request.POST['correo'] == "crear@psicologo.com" and request.POST['password'] == "1234" :
             login_check = False
             return render(request, 'salto.html')
-        elif models.Psicologo.objects.filter(correo = request.POST['correo']).exists():
-            detalleUsuario = models.Psicologo.objects.get(correo = request.POST['correo'], password = request.POST['password'])
-            request.session['correo'] = detalleUsuario.correo
-            request.session['nombre'] = detalleUsuario.nombre
-            request.session['cedula'] = detalleUsuario.cedula
-            login_check = True
-            return render(request, 'saltoInicioPsicologos.html')
         else:
             try:
                 detalleUsuario = models.Usuario.objects.get(correo = request.POST['correo'], password = request.POST['password'])
@@ -59,26 +52,26 @@ def Registro(request):
         password = request.POST['password']
         password_repeat = request.POST['password_repeat']
 
-        print(codigo_estudiante, documento_identidad, nombre, apellidos, celular, carrera, correo, password, password_repeat)
+        print(codigo_estudiante, documento_identidad, nombre, apellidos, celular, carrera, correo, password)
         if password != password_repeat:
             messages.info(request, 'Las contraseñas no coinciden')
         
         elif len(password) <= 7:
             messages.info(request, 'La contraseña debe contener por lo menos 8 caracteres')
-
-        elif not (user.verificarCarrera(carrera) or user.verificarCodigoEstudiante(codigo_estudiante) or user.verificarCorreo(correo) or user.verificarDocumento(documento_identidad)):
-            messages.info(request, 'No perteneces a la Universidad o revisa la informacion nuevamente')
-
+        
+            '''elif not (user.verificarCarrera(carrera) or user.verificarCodigoEstudiante(codigo_estudiante) or user.verificarCorreo(correo) or user.verificarDocumento(documento_identidad)):
+                messages.info(request, 'No perteneces a la Universidad o revisa la informacion nuevamente')'''
+        
         elif user.verificarPrevioRegistro(codigo_estudiante):
             messages.info(request,'Usuario ya registrado, por favor inicia sesión')
 
         
-        elif user.verificarCarrera(carrera) and user.verificarCodigoEstudiante(codigo_estudiante) and user.verificarCorreo(correo) and user.verificarDocumento(documento_identidad):
+        else: #if user.verificarCarrera(carrera) and user.verificarCodigoEstudiante(codigo_estudiante) and user.verificarCorreo(correo) and user.verificarDocumento(documento_identidad):
             agregar = models.Usuario(codigo_estudiante = codigo_estudiante, documento_identidad = documento_identidad,
             nombre = nombre, apellidos = apellidos, celular = celular, carrera = carrera, correo = correo,
-            password = password, password_repeat = password_repeat)
+            password = password)
             agregar.save()
-            return render(request, 'inicio.html')
+            return Inicio(request)
 
     return render(request, 'registro.html')
 
@@ -218,6 +211,21 @@ def EditarPerfil(request):
         user.actualizarUsuario(codigo,nombre,apellidos,celular)
         return SaltoEditar(request,codigo)
     return render(request, 'editarPerfil.html',{"info_usuario": info_usuario})
+import os
+def EditarImagen(request):
+    codigo = request.session['codigo_estudiante']
+    info_usuario = user.consultaUsuario(codigo)
+    if request.method == 'POST':
+        #corregir
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        imagen = request.FILES['foto']
+        img = Image.open(imagen)
+        img.save(os.path.join(BASE_DIR,'media'))
+        foto = f"foto_perfil/{request.POST['foto']}"
+        user.actualizarFoto(codigo, imagen)
+        return SaltoEditar(request,codigo)
+
+    return render(request, 'editarImagen.html',{"info_usuario": info_usuario})
 
 def Enviar_solicitud(request, codigo_estudiante):
         codigo_actual = request.session['codigo_estudiante']

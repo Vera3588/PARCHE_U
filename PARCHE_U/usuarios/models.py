@@ -2,7 +2,7 @@ from distutils.command.upload import upload
 from django.db import models
 
 
-class Estudiante(models.Model):
+'''class Estudiante(models.Model):
     codigo_estudiante = models.IntegerField(primary_key=True)
     documento_identidad = models.IntegerField()
     nombre = models.CharField(max_length=50)
@@ -11,7 +11,7 @@ class Estudiante(models.Model):
     correo = models.CharField(max_length=100)
     class Meta:
         verbose_name = "estudiante"
-        verbose_name_plural = "estudiantes"
+        verbose_name_plural = "estudiantes"'''
 
 class Usuario(models.Model):
     codigo_estudiante = models.IntegerField(primary_key=True)
@@ -22,9 +22,8 @@ class Usuario(models.Model):
     carrera = models.CharField(max_length=50)
     correo = models.CharField(max_length=100)
     password = models.CharField(max_length=20)
-    password_repeat = models.CharField(max_length=20)
     amigos = models.ManyToManyField("Usuario", blank = True, related_name = "lista_amigos")
-    #foto_perfil = models.ImageField(upload_to='usuarios/images/foto_perfil/',null=True)
+    foto_perfil = models.ImageField(upload_to='foto_perfil/', default='foto_perfil/nullprofile.jpg')
     class Meta:
         verbose_name = "usuario"
         verbose_name_plural = "usuarios"
@@ -44,7 +43,7 @@ class Gustos(models.Model):
 class Publicaciones(models.Model):
     id_publicacion = models.IntegerField(primary_key=True)
     mensaje = models.CharField(max_length=1000, null=False)
-    imagen = models.ImageField(upload_to='usuarios/images/publicaciones/', null=True)
+    imagen = models.ImageField(upload_to='images/publicaciones/', null=True)
     fecha_publicacion = models.CharField(max_length=10,null=False)
     hora_publicacion = models.CharField(max_length=10,null=False)
     codigo_estudiante = models.ForeignKey(Usuario,on_delete = models.CASCADE, null=True, blank=True)

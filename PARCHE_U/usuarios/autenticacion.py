@@ -1,6 +1,6 @@
 from django.db.models import query
 
-from usuarios.models import Estudiante
+#from usuarios.models import Estudiante
 from usuarios.models import Usuario
 from usuarios.models import Gustos, Psicologo, Publicaciones
 import sqlite3
@@ -10,30 +10,30 @@ def verificarPrevioRegistro(criterio, tipo = 'usuario'):
     if tipo == 'usuario':
         query = Usuario.objects.filter(codigo_estudiante=criterio).exists()
     return query
-
+'''
 def verificarCodigoEstudiante(criterio, tipo = 'estudiante'):
     query = False
     if tipo == 'estudiante':
         query = Estudiante.objects.filter(codigo_estudiante=criterio).exists()
-    return query
+    return query'''
 
-def verificarCorreo(criterio, tipo = 'estudiante'):
+'''def verificarCorreo(criterio, tipo = 'estudiante'):
     query = False
     if tipo == 'estudiante':
         query = Estudiante.objects.filter(correo=criterio).exists()
-    return query
+    return query'''
 
-def verificarDocumento(criterio, tipo = 'estudiante'):
+'''def verificarDocumento(criterio, tipo = 'estudiante'):
     query = False
     if tipo == 'estudiante':
         query = Estudiante.objects.filter(documento_identidad=criterio).exists()
     return query
-
+''''''
 def verificarCarrera(criterio, tipo = 'estudiante'):
     query = False
     if tipo == 'estudiante':
         query = Estudiante.objects.filter(carrera=criterio).exists()
-    return query
+    return query'''
 
 def consultaUsuario(id):
     es_usuario = Usuario.objects.filter(codigo_estudiante = id).exists()
@@ -48,6 +48,8 @@ def consultaUsuario(id):
         info["celular"] = user.celular
         info["correo"] = user.correo
         info["carrera"] = user.carrera
+        info["foto_perfil"] = user.foto_perfil
+        
     elif es_psicologo:
         user = Psicologo.objects.get(cedula=id)
         info = {}
@@ -101,6 +103,11 @@ def actualizarClave(id,password_new):
     target = Usuario.objects.get(codigo_estudiante = id)
     target.password = password_new
     target.save(update_fields=['password'])
+
+def actualizarFoto(id,foto):
+    target = Usuario.objects.get(codigo_estudiante = id)
+    target.foto_perfil = foto
+    target.save(update_fields=['foto_perfil'])
 
 def consultaPublicacion():
     publicacion = Publicaciones.objects.all()
