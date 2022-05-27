@@ -1,6 +1,7 @@
 from wsgiref.util import request_uri
 from usuarios.models import Solicitud_Amistad
 from usuarios.models import Publicaciones, Usuario
+from .forms import ActualizarImagenForm
 from matplotlib.ft2font import HORIZONTAL
 import usuarios.autenticacion as user
 from django.shortcuts import render
@@ -140,9 +141,10 @@ def Perfil(request, codigo_estudiante):
             codigo_actual = request.session['codigo_estudiante']
             usuario_actual = user.consultaUsuario(codigo_actual)
             usuario_actual_1 = models.Usuario.objects.get(codigo_estudiante = codigo_actual)
-            hay_amistad = models.Usuario.objects.filter(lista_amigos=usuario_actual_1)
+            hay_amistad = models.Usuario.objects.filter(lista_amigos__in=[codigo_actual])
             hay_amistad2 = hay_amistad.filter(amigos = info_usuario1).exists()
             hay_solicitud = models.Solicitud_Amistad.objects.filter(usuario_envia_id = codigo_actual, usuario_recibe_id = codigo_estudiante).exists()
+            print(hay_amistad2)
             solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo_actual)
             return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2, "solicitudesRecibe":solicitudesRecibe})
         else:
@@ -215,17 +217,16 @@ import os
 def EditarImagen(request):
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
+    usuario = models.Usuario.objects.get(codigo_estudiante=codigo)
     if request.method == 'POST':
-        #corregir
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        imagen = request.FILES['foto']
-        img = Image.open(imagen)
-        img.save(os.path.join(BASE_DIR,'media'))
-        foto = f"foto_perfil/{request.POST['foto']}"
-        user.actualizarFoto(codigo, imagen)
-        return SaltoEditar(request,codigo)
-
-    return render(request, 'editarImagen.html',{"info_usuario": info_usuario})
+        foto_form = ActualizarImagenForm(request.POST, request.FILES, instance=usuario)
+        if foto_form.is_valid():
+            foto_form.save()
+            messages.success(request, f'Se ha actualizado tu foto')
+            return SaltoEditar(request,codigo)
+    else:
+        foto_form=ActualizarImagenForm(request.POST, request.FILES, instance=usuario)
+    return render(request, 'editarImagen.html',{"info_usuario": info_usuario, 'foto_form':foto_form})
 
 def Enviar_solicitud(request, codigo_estudiante):
         codigo_actual = request.session['codigo_estudiante']
@@ -256,5 +257,13 @@ def Rechazar_Solicitud(request, requestID):
         return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
     else:
         return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+
 def InicioPsicologos(request):
     return render(request, 'inicioPsicologo.html')
+
+def Amigos(request):
+    codigo = request.session['codigo_estudiante']
+    info_usuario = user.consultaUsuario(codigo)
+    amigos = Usuario.objects.filter(lista_amigos__in = [codigo])
+    solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo)
+    return render(request, 'amigos.html', {'amigos':amigos, 'info_usuario':info_usuario, 'solicitudes':solicitudesRecibe})

@@ -28,7 +28,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'perfil' usuario_actual.codigo_estudiante %}">Perfil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'amigos' %}">Amigos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
                 </ul>
                 <form class="me-auto search-form" target="_self">
@@ -44,7 +44,7 @@
         <td>
       
           {% if info_usuario %}
-            <img class="card-img-top" style="heigth: 250px; width: 250px; margin-right: 100px; margin-top: -18px;" src="{{info_usuario.foto_perfil.url}}"/>
+            <img class="card-img-top" style="height: 250px; width: 250px; margin-right: 100px; margin-top: -18px;" src="{{info_usuario.foto_perfil.url}}"/>
           {% endif %}
         
         </td>
@@ -100,17 +100,7 @@
         &nbsp;&nbsp;&nbsp;
         <br>
         <br>
-        <ul class="list-group">
-          <li class="list-group-item active" aria-current="true">Solicitudes de amistad</li>
-          {% for Solicitud_Amistad in solicitudesRecibe %}
-          <li class="list-group-item">
-            {{Solicitud_Amistad.usuario_envia.nombre}} {{Solicitud_Amistad.usuario_envia.apellidos}} quiere ser tu amigo 
-            <a class="btn btn-light action-button" role="button" href="{% url 'aceptar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Aceptar Solicitud</a> o 
-            <a class="btn btn-light action-button" role="button" href="{% url 'rechazar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Rechazar Solicitud</a> 
-          </li>
-          {% endfor %}
-        </ul>
-      {% elif hay_amistad %}
+      {% elif hay_amistad == true %}
         <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Amigos</a>
       {% elif hay_solicitud %}
         <a class="btn btn-light action-button" role="button" href="#" style="background: var(--bs-red); color:white;">Solicitud enviada</a>

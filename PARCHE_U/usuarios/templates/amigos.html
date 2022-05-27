@@ -5,7 +5,7 @@
     {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" >
-    <title>Perfil</title>
+    <title>{{info_usuario.nombre}} {{info_usuario.apellidos}}/ParcheU</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Amiko&amp;display=swap'%}">
     <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Bitter:400,700&amp;display=swap' %}">
@@ -23,8 +23,8 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="border-bottom-style: solid;">
-        <div class="container"><a class="navbar-brand" href="{% url 'inicio_muro' %}">ParcheU</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
+        <div class="container"><a class="navbar-brand" href="{% url 'inicio_muro' %}">ParcheU</a>
+            
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'perfil' info_usuario.codigo_estudiante %}">Perfil</a></li>
@@ -34,43 +34,41 @@
                 <form class="me-auto search-form" target="_self">
                     <div class="d-flex align-items-center" style="border-width: 1px;border-style: solid;width: 200px;"><label class="form-label d-flex mb-0" for="search-field"></label><input class="form-control search-field" type="search" id="search-field" name="search" style="width: 175px;"><i class="fa fa-search"></i></div>
                 </form><a class="btn btn-light action-button" role="button" href="{% url 'cerrar_sesion' %}" style="background: var(--bs-red);">Cerrar sesión</a>
-            </div>
+           
         </div>
     </nav>
     <br>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <div class="contenedor_campo">
-          <p class="campo"><strong>Musica</strong> 
-            {% if info_gustos %}
-            {{info_gustos.musica}}
-            {% endif %}
-          </p>
-          
-          <p class="campo"><strong>Deportes</strong>
-            {% if info_gustos %}
-            {{info_gustos.deportes}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Series / Peliculas </strong>
-            {% if info_gustos  %}
-            {{info_gustos.series}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>VideoJuegos</strong>
-            {% if info_gustos %}
-            {{info_gustos.videojuegos}}
-            {% endif %}
-          </p>
-          <p class="campo" ><strong>Literatura</strong>
-            {% if info_gustos %}
-            {{info_gustos.literatura}}
-            {% endif %}
-          </p>
-        </div>
+    <section class="register-photo">
+      <ul class="list-group">
+        <li class="list-group-item active" aria-current="true">Solicitudes de amistad</li>
+        {% for Solicitud_Amistad in solicitudesRecibe %}
+        <li class="list-group-item">
+          {{Solicitud_Amistad.usuario_envia.nombre}} {{Solicitud_Amistad.usuario_envia.apellidos}} quiere ser tu amigo 
+          <a class="btn btn-light action-button" role="button" href="{% url 'aceptar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Aceptar Solicitud</a> o 
+          <a class="btn btn-light action-button" role="button" href="{% url 'rechazar_solicitud' Solicitud_Amistad.id %}" style="background: var(--bs-red); color:white;">Rechazar Solicitud</a> 
+        </li>
+        {% endfor %}
+      </ul>
+      <br>
+      <br>
+      <class="form-container">         
+      <div class = "row row-cols-1 row-cols-md-3 g-4">
+      {% for Usuario in amigos %}
+      <div v-for = "movie in movies" class = "col">
+          <div class = "card text-white bg-dark mb-3">
+              <img class = "card-img-top" src = "{{ Usuario.foto_perfil.url }}" />
+              <div class = "card-body">
+                  <h5 class = "card-title fw-bold">{{ Usuario.nombre }} {{ Usuario.apellidos }}</h5>
+                  <p class = "card-text">{{ movie.description }}</p>
+                  <a href = "{% url 'perfil' Usuario.codigo_estudiante %}" class = "btn btn-primary">
+                      Ver perfil
+                  </a>
+              </div>
+          </div>
       </div>
+      {% endfor %}
+</div>
+</section>  
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 

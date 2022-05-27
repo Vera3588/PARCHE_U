@@ -39,6 +39,5 @@ urlpatterns = [
     path('aceptar_solicitud/<int:requestID>/', views.Aceptar_solicitud, name='aceptar_solicitud'),
     path('rechazar_solicitud/<int:requestID>/', views.Rechazar_Solicitud, name='rechazar_solicitud'),
     path('editarFoto/', views.EditarImagen, name='foto_perfil'),
-]
-'''path('rechazar_solicitud/<int:requestID>/', views.Rechazar_solicitud, name='rechazar_solicitud'),'''
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path('amigos/', views.Amigos, name='amigos')
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -28,7 +28,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio_muro' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'perfil' info_usuario.codigo_estudiante %}">Perfil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Amigos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'amigos' %}">Amigos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
                 </ul>
                 <form class="me-auto search-form" target="_self">
@@ -40,23 +40,25 @@
     <br>
 
     <section class="register-photo">
-    <div class="form-container">
-    <form method="post">
-        {% csrf_token %}
-        <center>
-        <h2 class="text-center"><strong>Editar Foto</strong>.</h2>
-        <br>
-        {% if info_usuario %}
-        <img class="card-img-top" style="heigth: 250px; width: 250px; margin-top: -18px;" src="{{info_usuario.foto_perfil.url}}"/>
-        {% endif %}
-        <br>
-        <br>
-        <input type="file" name="foto" accept="image/*"/>
+    <div class="form-container" enqtype="multipart/form-data">
+    
+        <form method="POST" enctype="multipart/form-data">
+            {% if info_usuario %}
+                <img class="card-img-top" style="height: 250px; width: 250px; margin-top: -18px;" src="{{info_usuario.foto_perfil.url}}"/>
+            {% endif %}
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Profile Info</legend>
+                {{ foto_form }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-light action-button" type="submit" style="background: var(--bs-red); color:white;">Actualizar foto</button>
+            </div>
+        </form>
+        </div>
+
         <br>
          <br>
             <a class="btn btn-light action-button" role="button" href="{% url 'perfil' info_usuario.codigo_estudiante %}" style="background: var(--bs-gray); color:white;">Volver</a>
-            <button class="btn btn-light action-button" type="submit" style="background: var(--bs-red); color:white;">Actualizar foto</button>
-        </center>
-    </form>
-</div>
+    </div>
 </section>
