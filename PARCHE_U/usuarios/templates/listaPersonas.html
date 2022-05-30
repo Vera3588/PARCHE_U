@@ -53,7 +53,8 @@
       {% for Usuario in personas %}
       <div v-for = "movie in movies" class = "col">
           <div class = "card text-white bg-dark mb-3">
-              <img class = "card-img-top" src = "{{ Usuario.foto_perfil.url }}" />
+              <br>
+              <center><img class = "card-img-top" style="height: 250px; width: 250px;" src = "{{ Usuario.foto_perfil.url }}" /></center>
               <div class = "card-body">
                   <h5 class = "card-title fw-bold">{{ Usuario.nombre }} {{ Usuario.apellidos }}</h5>
                   <a href = "{% url 'perfil' Usuario.codigo_estudiante %}" class = "btn btn-primary">
