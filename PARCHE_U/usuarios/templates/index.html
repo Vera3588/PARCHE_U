@@ -19,7 +19,7 @@
 <body>
     <nav class="navbar navbar-light navbar-expand-md border rounded-0 navigation-clean-button">
         <div class="container">
-            <a class="navbar-brand" href="#">ParcheU</a> 
+            <a class="nav-link" href="{% url 'inicio' %}"><img src="{% static 'assets/img/Logo.jpg' %}"></img></a>
             <ul class="navbar-nav me-auto"></ul><span class="navbar-text actions"> 
                 <a class="login" href="#">¿Aún no tienes cuenta?</a>
                 <a class="btn btn-light action-button" role="button" href="{% url 'registro' %}">Registrate ahora</a>

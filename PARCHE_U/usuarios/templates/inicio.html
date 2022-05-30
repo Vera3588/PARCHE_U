@@ -33,10 +33,16 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicioApp' %}">Mis gustos</a></li>
                     
                 </ul>
-                <form class="me-auto search-form" target="_self">
-                    {% csrf_token %}
-                    <div class="d-flex align-items-center" style="border-width: 1px;border-style: solid;width: 200px;"><label class="form-label d-flex mb-0" for="search-field"></label><input class="form-control search-field" type="search" id="search-field" name="search" style="width: 175px;"><i class="fa fa-search"></i></div>
+                
+                <form class="me-auto search-form" action="">
+                    <div class="d-flex align-items-center" style="border-width: 1px;border-style: solid;width: 157px;">
+                        <label class="form-label d-flex mb-0" for="search-field"></label>
+                        <input class="form-control search-field" type="search" id="search-field" name="search" style="width: 160px;">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </input>
+                    </div>
                 </form>
+
                 <a class="btn btn-light action-button" role="button" href="{% url 'cerrar_sesion' %}" style="background: var(--bs-red);">Cerrar sesión</a>
             
         </div>
@@ -44,7 +50,7 @@
 
      <div class="container" style="width: auto;">
         <section class="contact-clean" style="height: 300px;">
-            <form method="post" style="height: 270px;">
+            <form method="post" style="height: auto;">
                 {% csrf_token %}
                 <textarea class="form-control" maxlength="1000" style="resize: none;" name="mensaje" placeholder="Escribe algo" rows="14" required></textarea>
                 <div class="mb-3"></div>
@@ -57,7 +63,7 @@
         </section>
     </div>
     
-    
+    <br><br>
     {% for publicacion in publicaciones %}
         {% for publicacion1 in publicaciones1 %}
             <section class="testimonials-clean">

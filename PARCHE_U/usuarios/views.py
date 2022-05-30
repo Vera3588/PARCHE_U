@@ -12,7 +12,7 @@ import sqlite3
 from PIL import Image
 import cv2
 from datetime import datetime
-
+import unicodedata
 
 login_check = False
 def Inicio(request):
@@ -100,6 +100,10 @@ def InicioApp(request):
 
 def Inicio_muro(request):
     codigo = request.session['codigo_estudiante']
+    searchTerm = request.GET.get('search')
+
+    if searchTerm:
+        return Personas(request)
 
     if request.method =='POST':
         now = datetime.now()
@@ -121,7 +125,10 @@ def Inicio_muro(request):
         agregar = models.Publicaciones(mensaje = mensaje, imagen = imagen, fecha_publicacion = fecha, hora_publicacion = tiempo, codigo_estudiante_id = codigo)
         agregar.save()
         return Salto2(request)
+    
+    
     publicaciones =reversed(Publicaciones.objects.filter(codigo_estudiante_id = codigo))
+
     publicaciones1 = Usuario.objects.filter(codigo_estudiante = codigo)
     solicitudes = Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo)
     info_usuario = user.consultaUsuario(codigo)
@@ -130,6 +137,12 @@ def Inicio_muro(request):
 def Perfil(request, codigo_estudiante):
         es_estudiante = models.Usuario.objects.filter(codigo_estudiante=codigo_estudiante).exists()
         es_psicologo = models.Psicologo.objects.filter(cedula=codigo_estudiante).exists()
+        searchTerm = request.GET.get('search')
+
+        if searchTerm:
+            return Personas(request)
+
+    
         if es_psicologo == True:
             codigo_actual = request.session['codigo_estudiante']
             info_usuario = user.consultaUsuario(codigo_estudiante)
@@ -181,6 +194,10 @@ def SaltoInicioPsicologos(request):
     return render(request, 'saltoInicioPsicologos.html')
 
 def EditarClave(request):
+    searchTerm = request.GET.get('search')
+
+    if searchTerm:
+        return Personas(request)
     codigo = request.session['codigo_estudiante']
     if request.method == 'POST':
         password = request.POST['password']
@@ -202,6 +219,10 @@ def EditarClave(request):
     return render(request,'editarClave.html', {"info_usuario":info_usuario})
 
 def EditarPerfil(request):
+    searchTerm = request.GET.get('search')
+
+    if searchTerm:
+        return Personas(request)
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
     if request.method == 'POST':
@@ -211,11 +232,15 @@ def EditarPerfil(request):
         user.actualizarUsuario(codigo,nombre,apellidos,celular)
         return SaltoEditar(request,codigo)
     return render(request, 'editarPerfil.html',{"info_usuario": info_usuario})
-import os
+
 def EditarImagen(request):
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
     usuario = models.Usuario.objects.get(codigo_estudiante=codigo)
+    searchTerm = request.GET.get('search')
+
+    if searchTerm:
+        return Personas(request)
     if request.method == 'POST':
         foto_form = ActualizarImagenForm(request.POST, request.FILES, instance=usuario)
         if foto_form.is_valid():
@@ -223,14 +248,19 @@ def EditarImagen(request):
             messages.success(request, f'Se ha actualizado tu foto')
             return SaltoEditar(request,codigo)
     else:
+
         foto_form=ActualizarImagenForm(request.POST, request.FILES, instance=usuario)
+
     return render(request, 'editarImagen.html',{"info_usuario": info_usuario, 'foto_form':foto_form})
+
+def SaltoAmigos(request):
+    return render(request, 'saltoAmigos.html')
 
 def Enviar_solicitud(request, codigo_estudiante):
         codigo_actual = request.session['codigo_estudiante']
         usuario_envia = models.Usuario.objects.get(codigo_estudiante=codigo_actual)
         usuario_recibe = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
-        solicitud_amistad, created = models.Solicitud_Amistad.objects.get_or_create(usuario_envia=usuario_envia, usuario_recibe=usuario_recibe)
+        created = models.Solicitud_Amistad.objects.get_or_create(usuario_envia=usuario_envia, usuario_recibe=usuario_recibe)
         if created:
             messages.success(request, 'solicitud de amistad enviada')
             return Perfil(request, codigo_estudiante=codigo_estudiante)
@@ -244,24 +274,51 @@ def Aceptar_solicitud(request, requestID):
         solicitud_amistad.usuario_recibe.amigos.add(solicitud_amistad.usuario_envia)
         solicitud_amistad.usuario_envia.amigos.add(solicitud_amistad.usuario_recibe)
         solicitud_amistad.delete()
-        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+        return SaltoAmigos(request)
     else:
-        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+        return SaltoAmigos(request)
 
 def Rechazar_Solicitud(request, requestID):
     solicitud_amistad = models.Solicitud_Amistad.objects.get(id=requestID)
     if not solicitud_amistad.usuario_recibe == request.user:
         solicitud_amistad.delete()
-        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+        return SaltoAmigos(request)
     else:
-        return Perfil(request, solicitud_amistad.usuario_recibe.codigo_estudiante)
+        return SaltoAmigos(request)
 
 def InicioPsicologos(request):
     return render(request, 'inicioPsicologo.html')
 
 def Amigos(request):
+    searchTerm = request.GET.get('search')
+
+    if searchTerm:
+        return Personas(request)
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
     amigos = Usuario.objects.filter(lista_amigos__in = [codigo])
     solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo)
-    return render(request, 'amigos.html', {'amigos':amigos, 'info_usuario':info_usuario, 'solicitudes':solicitudesRecibe})
+    return render(request, 'amigos.html', {'amigos':amigos, 'info_usuario':info_usuario, 'solicitudesRecibe':solicitudesRecibe})
+
+def Personas(request):
+    codigo = request.session['codigo_estudiante']
+    info_usuario = user.consultaUsuario(codigo)
+
+    searchTerm = request.GET.get('search')
+    
+    busqueda = str(searchTerm).split()
+
+    personas = Usuario.objects.all()
+
+    if searchTerm:
+        if Usuario.objects.filter(nombre__icontains = searchTerm):
+            personas = Usuario.objects.filter(nombre__icontains = searchTerm)
+        elif Usuario.objects.filter(apellidos__icontains = searchTerm):
+            personas = Usuario.objects.filter(apellidos__icontains = searchTerm)
+        elif len(busqueda) > 1:
+            if Usuario.objects.filter(nombre__icontains = busqueda[0]):
+                personas = Usuario.objects.filter(nombre__icontains = busqueda[0])
+            elif Usuario.objects.filter(apellidos__icontains = busqueda[1]):
+                personas = Usuario.objects.filter(apellidos__icontains = busqueda[1])
+
+    return render(request, 'listaPersonas.html',{'info_usuario':info_usuario,'searchTerm':searchTerm,'personas':personas})
