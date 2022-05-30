@@ -141,12 +141,10 @@ def Perfil(request, codigo_estudiante):
             codigo_actual = request.session['codigo_estudiante']
             usuario_actual = user.consultaUsuario(codigo_actual)
             usuario_actual_1 = models.Usuario.objects.get(codigo_estudiante = codigo_actual)
-            hay_amistad = models.Usuario.objects.filter(lista_amigos__in=[codigo_actual])
-            hay_amistad2 = hay_amistad.filter(amigos = info_usuario1).exists()
+            hay_amistad = user.hayAmistad(codigo_estudiante, codigo_actual)
             hay_solicitud = models.Solicitud_Amistad.objects.filter(usuario_envia_id = codigo_actual, usuario_recibe_id = codigo_estudiante).exists()
-            print(hay_amistad2)
             solicitudesRecibe = models.Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo_actual)
-            return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad2, "solicitudesRecibe":solicitudesRecibe})
+            return render(request, "perfil.html", {"info_usuario":info_usuario, "usuario_actual":usuario_actual, "hay_solicitud":hay_solicitud, "hay_amistad":hay_amistad, "solicitudesRecibe":solicitudesRecibe, "amigos":hay_amistad})
         else:
             html = "<html><body>El usuario no existe</body></html>"
             return HttpResponse(html)

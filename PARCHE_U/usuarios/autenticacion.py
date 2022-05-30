@@ -113,4 +113,13 @@ def consultaPublicacion():
     publicacion = Publicaciones.objects.all()
 
     #print(info)
-    #return info   
+    #return info  
+
+def hayAmistad(codigo1, codigo2):
+    amistad = False
+    amigos = Usuario.objects.filter(lista_amigos__in=[codigo1])
+    for amigo in amigos:
+        if amigo.codigo_estudiante == codigo2:
+            amistad = True
+            break
+    return amistad
