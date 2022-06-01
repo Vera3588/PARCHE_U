@@ -340,11 +340,17 @@ def Personas(request):
 
 
 def chat(request, codigo_estudiante):
+    codigo_estudiante1 = codigo_estudiante
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
     amigos = Usuario.objects.filter(lista_amigos__in = [codigo])
+
     usuario_envia = models.Usuario.objects.get(codigo_estudiante=codigo)
-    usuario_recibe = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
+    usuario_recibe = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante1)
+    searchTerm = request.GET.get('search')
+
+    if searchTerm:
+        return Personas(request)
     if request.method =='POST':
 
         mensaje = request.POST['mensaje']
@@ -365,8 +371,10 @@ def chat(request, codigo_estudiante):
 
         agregar = models.Mensaje(mensaje = mensaje, fecha_publicacion = fecha, hora_publicacion = tiempo, usuario_envia= usuario_envia, usuario_recibe = usuario_recibe)
         agregar.save()
-        SaltoMensaje(request, codigo)
+        return SaltoMensaje(request, codigo_estudiante1)
+        
 
     mensajes = models.Mensaje.objects.filter(usuario_envia = usuario_envia, usuario_recibe = usuario_recibe)
-    
-    return render(request, 'chat.html',{'amigos':amigos,'info_usuario':info_usuario,'mensajes':mensajes})
+    mensajes1 = models.Mensaje.objects.filter(usuario_envia = usuario_recibe, usuario_recibe = usuario_envia)
+    mensajes2 = mensajes.union(mensajes1)
+    return render(request, 'chat.html',{'amigos':amigos,'info_usuario':info_usuario,'mensajes':mensajes2,'usue':usuario_envia,'usu':usuario_recibe})

@@ -9,7 +9,14 @@
   color: #fff;
   background-size: cover;
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} 
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .register-photo .image-holder {
   display: table-cell;
   width: 500px;
