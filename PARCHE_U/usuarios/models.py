@@ -67,7 +67,14 @@ class Solicitud_Amistad(models.Model):
     class Meta:
         verbose_name = "solicitud"
         verbose_name_plural = "solicituds"
-'''
-class Comentarios
 
-'''
+class Mensaje(models.Model):
+    id_mensaje = models.IntegerField(primary_key=True)
+    mensaje = models.CharField(max_length=1000, null=False)
+    fecha_publicacion = models.CharField(max_length=10,null=False)
+    hora_publicacion = models.CharField(max_length=10,null=False)
+    usuario_envia = models.ForeignKey(Usuario, related_name='usuario_enviador', on_delete=models.CASCADE)
+    usuario_recibe = models.ForeignKey(Usuario, related_name='usuario_recibidor', on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = "mensaje"
+        verbose_name_plural = "mensajes"

@@ -113,7 +113,7 @@ def Inicio_muro(request):
             imagen = request.FILES['imagen']
         except:
             imagen = ""
-
+        
         dia = now.day
         mes = now.month
         año = now.year
@@ -229,6 +229,9 @@ def EditarClave(request):
     info_usuario = user.consultaUsuario(codigo)
     return render(request,'editarClave.html', {"info_usuario":info_usuario})
 
+def SaltoMensaje(request, codigo):
+    return render(request,'saltoMensaje.html', {'codigo':codigo})
+
 def EditarPerfil(request):
     searchTerm = request.GET.get('search')
 
@@ -334,7 +337,36 @@ def Personas(request):
 
     return render(request, 'listaPersonas.html',{'info_usuario':info_usuario,'searchTerm':searchTerm,'personas':personas})
 
-def chat(request):
+
+
+def chat(request, codigo_estudiante):
     codigo = request.session['codigo_estudiante']
     info_usuario = user.consultaUsuario(codigo)
-    return render(request, 'chat.html',{'info_usuario':info_usuario})
+    amigos = Usuario.objects.filter(lista_amigos__in = [codigo])
+    usuario_envia = models.Usuario.objects.get(codigo_estudiante=codigo)
+    usuario_recibe = models.Usuario.objects.get(codigo_estudiante = codigo_estudiante)
+    if request.method =='POST':
+
+        mensaje = request.POST['mensaje']
+        now = datetime.now()
+        dia = now.day
+        mes = now.month
+        año = now.year
+
+        fecha = f'{año}-{mes}-{dia}'
+        
+        hora = now.hour
+        minutos = now.minute
+        segundos = now.second
+
+        tiempo = f'{hora}:{minutos}:{segundos}'
+
+        
+
+        agregar = models.Mensaje(mensaje = mensaje, fecha_publicacion = fecha, hora_publicacion = tiempo, usuario_envia= usuario_envia, usuario_recibe = usuario_recibe)
+        agregar.save()
+        SaltoMensaje(request, codigo)
+
+    mensajes = models.Mensaje.objects.filter(usuario_envia = usuario_envia, usuario_recibe = usuario_recibe)
+    
+    return render(request, 'chat.html',{'amigos':amigos,'info_usuario':info_usuario,'mensajes':mensajes})

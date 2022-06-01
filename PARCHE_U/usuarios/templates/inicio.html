@@ -53,6 +53,7 @@
 
      <div class="container" style="width: auto;" enqtype="multipart/form-data">
         <section class="contact-clean" style="height: 300px;">
+
             <form method="post" style="height: auto;" enctype="multipart/form-data">
                 {% csrf_token %}
                 <textarea class="form-control" maxlength="1000" style="resize: none;" name="mensaje" placeholder="Escribe algo" rows="14" required></textarea>
@@ -63,6 +64,7 @@
                     <button class="btn btn-primary" type="submit">Publicar</button></div>
                 <div class="mb-3"></div>
             </form>
+            
         </section>
     </div>
     

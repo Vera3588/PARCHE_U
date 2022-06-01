@@ -72,48 +72,61 @@
           </div>
           <div class="inbox_chat">
             <!--chat list-->
-            <div class="chat_list">
+            
+            {% for Usuario in amigos  %}
+            <div class="chat_list" >
+                <a style ="text-decoration: none;" href="{% url 'chat' Usuario.codigo_estudiante %}">
               <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_img"> <img src="{{ Usuario.foto_perfil.url }}" alt="sunil"> </div>
                 <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
+                  <h5>{{ Usuario.nombre }} {{ Usuario.apellidos }}<span class="chat_date"></span></h5>
+                </a>
                 </div>
               </div>
             </div>
+            {% endfor %}
             <!--end chat list-->
           </div>
         </div>
+
         <div class="mesgs">
-          <div class="msg_history">
-
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> 
-                  <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> 
-            </div>
-            
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>hola como estás?</p>
-                  <span class="time_date"> 11:01 AM    |    June 9</span></div>
+            <div class="msg_history">
+              {% if  not info_usuario.codigo_estudiante == mensaje.usuario_recibe_id.codigo_estudiante %}
+              <div class="incoming_msg">
+                <div class="incoming_msg_img"> 
+                    <img src="{{mensaje.usuario_recibe_id.foto_perfil.url}}" alt="sunil"> 
+              </div>
+              {% endif %}
+                        
+                <div class="received_msg">
+                  <div class="received_withd_msg">
+                    <p>hola como estás?</p>
+                    <span class="time_date"> 11:01 AM    |    June 9</span></div>
                 </div>
+              </div>
+  
+              <div class="outgoing_msg">
+                <div class="sent_msg">
+                  <p>Bien y tu?</p>
+                  <span class="time_date"> 11:01 AM    |    June 9</span> </div>
+              </div>
+             
             </div>
-
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>Bien y tu?</p>
-                <span class="time_date"> 11:01 AM    |    June 9</span> </div>
-            </div>
-           
-          </div>
-          <form action="">
+        
+            <!---->
+          <form method="post">
+            {% csrf_token %}
           <div class="type_msg">
             <div class="input_msg_write">
-              <input type="text" class="write_msg" placeholder="Escribe un mensaje" />
-              <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <input type="text" name = "mensaje" class="write_msg" placeholder="Escribe un mensaje" autocomplete="off" required/>
+              <button class="msg_send_btn" type="submit">
+                  <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                </button>
             </div>
           </div>
+          
+        </form>
+        <!---->
         </div>
         
       </div>
