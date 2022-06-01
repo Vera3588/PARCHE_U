@@ -8,11 +8,8 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.contrib import messages
 from usuarios import models
-import sqlite3
-from PIL import Image
-import cv2
 from datetime import datetime
-import unicodedata
+
 
 login_check = False
 def Inicio(request):
