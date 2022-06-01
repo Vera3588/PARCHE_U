@@ -126,13 +126,20 @@ def Inicio_muro(request):
         agregar.save()
         return Salto2(request)
     
-    
-    publicaciones =reversed(Publicaciones.objects.filter(codigo_estudiante_id = codigo))
+    amigos = Usuario.objects.filter(lista_amigos__in = [codigo])
 
+    publicaciones = Publicaciones.objects.filter(codigo_estudiante_id = codigo)
+
+    for i in amigos:
+        lista = Publicaciones.objects.filter(codigo_estudiante_id = i.codigo_estudiante)
+        publicaciones = publicaciones.union(lista)
+
+  
+    publicaciones = reversed(publicaciones)
     publicaciones1 = Usuario.objects.filter(codigo_estudiante = codigo)
     solicitudes = Solicitud_Amistad.objects.filter(usuario_recibe_id = codigo)
     info_usuario = user.consultaUsuario(codigo)
-    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario, "solicitudes":solicitudes,"publicaciones1": publicaciones1,})
+    return render(request, 'inicio.html',{"publicaciones": publicaciones, "info_usuario":info_usuario, "solicitudes":solicitudes,"publicaciones1": publicaciones1})
 
 def Perfil(request, codigo_estudiante):
         es_estudiante = models.Usuario.objects.filter(codigo_estudiante=codigo_estudiante).exists()
@@ -322,3 +329,8 @@ def Personas(request):
                 personas = Usuario.objects.filter(apellidos__icontains = busqueda[1])
 
     return render(request, 'listaPersonas.html',{'info_usuario':info_usuario,'searchTerm':searchTerm,'personas':personas})
+
+def chat(request):
+    codigo = request.session['codigo_estudiante']
+    info_usuario = user.consultaUsuario(codigo)
+    return render(request, 'chat.html',{'info_usuario':info_usuario})

@@ -38,4 +38,5 @@ urlpatterns = [
     path('editarFoto/', views.EditarImagen, name='foto_perfil'),
     path('amigos/', views.Amigos, name='amigos'),
     path('personas/', views.Personas, name='personas'),
+    path('chat/', views.chat, name='chat'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
