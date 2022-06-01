@@ -108,6 +108,12 @@ def Inicio_muro(request):
     if request.method =='POST':
         now = datetime.now()
         mensaje = request.POST['mensaje']
+        
+        try:
+            imagen = request.FILES['imagen']
+        except:
+            imagen = ""
+
         dia = now.day
         mes = now.month
         año = now.year
@@ -119,10 +125,8 @@ def Inicio_muro(request):
         segundos = now.second
 
         tiempo = f'{hora}:{minutos}:{segundos}'
-
-        if not request.POST['imagen'] == None:
-            imagen = request.POST['imagen']
         agregar = models.Publicaciones(mensaje = mensaje, imagen = imagen, fecha_publicacion = fecha, hora_publicacion = tiempo, codigo_estudiante_id = codigo)
+        
         agregar.save()
         return Salto2(request)
     

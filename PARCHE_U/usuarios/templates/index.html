@@ -31,7 +31,7 @@
             <form method="post">
                 {% csrf_token %}
                 {%for message in messages%}
-                    <!--<span>{{message}}</span>-->
+                    <span>{{message}}</span>
                 {% endfor %}
                 <h2 class="visually-hidden">Login Form</h2>
                 <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
