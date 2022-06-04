@@ -117,7 +117,7 @@
               {% endfor %}
             </div>
               <form method="post">
-                <input type="hidden" name="csrfmiddlewaretoken" value="lapH1SiknnYOE8Fuk1VM30kblcssdfwOBmhUuymORguzZKNOvNqutBrhIp3N4MZa">
+               {%csrf_token%}
               <div class="type_msg">
                 <div class="input_msg_write">
                   <input type="text" name = "mensaje" class="write_msg" placeholder="Escribe un mensaje" autocomplete="off" required/>
